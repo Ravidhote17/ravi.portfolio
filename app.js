@@ -1,7 +1,74 @@
+<<<<<<< HEAD
 
 gsap.registerPlugin(ScrollTrigger);
 
 /* ============================================================
+=======
+gsap.registerPlugin(ScrollTrigger);
+
+/* ============================================================
+   THEME TOGGLE (dark/light) + MOBILE HAMBURGER NAV
+   Self-contained, runs regardless of what else on the page succeeds.
+   The initial theme itself is already applied by the inline script in
+   <head> (to avoid a flash) — this only wires up the click handlers and
+   keeps localStorage in sync.
+   ============================================================ */
+
+(function initThemeToggle(){
+  const toggleBtn = document.getElementById("themeToggle");
+  if (!toggleBtn) return;
+
+  toggleBtn.addEventListener("click", function(){
+    const isLight = document.documentElement.getAttribute("data-theme") === "light";
+    if (isLight){
+      document.documentElement.removeAttribute("data-theme");
+      try { localStorage.setItem("theme", "dark"); } catch (e) {}
+    } else {
+      document.documentElement.setAttribute("data-theme", "light");
+      try { localStorage.setItem("theme", "light"); } catch (e) {}
+    }
+  });
+})();
+
+(function initMobileNav(){
+  const hamburger = document.getElementById("hamburgerBtn");
+  const mobileNav = document.getElementById("mobileNav");
+  const backdrop = document.getElementById("mobileNavBackdrop");
+  if (!hamburger || !mobileNav) return;
+
+  function closeMenu(){
+    hamburger.setAttribute("aria-expanded", "false");
+    mobileNav.classList.remove("is-open");
+    if (backdrop) backdrop.classList.remove("is-open");
+  }
+
+  function openMenu(){
+    hamburger.setAttribute("aria-expanded", "true");
+    mobileNav.classList.add("is-open");
+    if (backdrop) backdrop.classList.add("is-open");
+  }
+
+  hamburger.addEventListener("click", function(){
+    const isOpen = hamburger.getAttribute("aria-expanded") === "true";
+    if (isOpen) closeMenu(); else openMenu();
+  });
+
+  if (backdrop) backdrop.addEventListener("click", closeMenu);
+
+  // Close on link tap and let the native #anchor jump happen underneath.
+  mobileNav.querySelectorAll(".mobile-nav-link").forEach(function(link){
+    link.addEventListener("click", closeMenu);
+  });
+
+  // If the viewport is resized past the mobile breakpoint while the
+  // drawer is open (e.g. rotating a tablet), don't leave it stuck open.
+  window.addEventListener("resize", function(){
+    if (window.innerWidth > 768) closeMenu();
+  });
+})();
+
+/* ============================================================
+>>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
    LOCOMOTIVE SCROLL + SCROLLTRIGGER SETUP
    This is the only new "system" being introduced. Everything below it
    (tab switching, typed.js, the horizontal scroll pin, the existing
@@ -10,9 +77,21 @@ gsap.registerPlugin(ScrollTrigger);
 
 const scrollContainer = document.querySelector("[data-scroll-container]");
 
+<<<<<<< HEAD
 const locoScroll = new LocomotiveScroll({
   el: scrollContainer,
   smooth: true,
+=======
+// Below this width the horizontal-pin scroll effect (see the
+// ScrollTrigger.create for .sticky_parent further down) is switched off in
+// favor of a plain, native, vertically-stacked layout — see the matching
+// max-width:768px override in style.css for .sticky_parent/.scroll_section.
+const isMobileLayout = window.matchMedia("(max-width: 768px)").matches;
+
+const locoScroll = new LocomotiveScroll({
+  el: scrollContainer,
+  smooth: !isMobileLayout, // native scroll on mobile — smoother, cheaper, and pairs with the stacked layout
+>>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
   multiplier: 0.6, // lower = each scroll tick travels less distance (slower feel)
   lerp: 0.05, // lower = more gradual catch-up/glide before settling (slower, smoother)
 });
@@ -92,6 +171,7 @@ function opentab(tabname){
    panel.)
    ============================================================ */
 
+<<<<<<< HEAD
 ScrollTrigger.create({
   trigger: ".sticky_parent",
   start: "top top",
@@ -104,6 +184,26 @@ ScrollTrigger.create({
     gsap.set(".scroll_section", { x: `-${percentage}vw` });
   },
 })
+=======
+if (!isMobileLayout) {
+  ScrollTrigger.create({
+    trigger: ".sticky_parent",
+    start: "top top",
+    end: "bottom bottom",
+    pin: ".sticky",
+    pinSpacing: false, // .sticky_parent's own 350vh height already reserves the scroll room
+    invalidateOnRefresh: true,
+    onUpdate: (self) => {
+      const percentage = self.progress * 200;
+      gsap.set(".scroll_section", { x: `-${percentage}vw` });
+    },
+  })
+}
+// On mobile, .sticky_parent/.sticky/.scroll_section fall back to their
+// plain static/stacked CSS (see style.css) and the three panels
+// (.projects, .experience, .education) simply flow vertically like any
+// other section — no pin, no horizontal translate.
+>>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
 //APPROACH ONE
 // Guarded: these tab/panel elements aren't part of the current markup.
 // Querying them is harmless, but calling .addEventListener on a null
