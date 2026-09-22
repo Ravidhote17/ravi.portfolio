@@ -1,10 +1,54 @@
+
+gsap.registerPlugin(ScrollTrigger);
+
+/* ============================================================
+   LOCOMOTIVE SCROLL + SCROLLTRIGGER SETUP
+   This is the only new "system" being introduced. Everything below it
+   (tab switching, typed.js, the horizontal scroll pin, the existing
+   ScrollTrigger reveal animations) plugs into this single scroll source.
+   ============================================================ */
+
+const scrollContainer = document.querySelector("[data-scroll-container]");
+
+const locoScroll = new LocomotiveScroll({
+  el: scrollContainer,
+  smooth: true,
+  multiplier: 0.6, // lower = each scroll tick travels less distance (slower feel)
+  lerp: 0.05, // lower = more gradual catch-up/glide before settling (slower, smoother)
+});
+
+// Keep ScrollTrigger in sync with Locomotive's (smoothed) scroll position every frame.
+locoScroll.on("scroll", ScrollTrigger.update);
+
+// Tell ScrollTrigger to measure/scroll through Locomotive instead of the native window.
+ScrollTrigger.scrollerProxy(scrollContainer, {
+  scrollTop(value) {
+    return arguments.length
+      ? locoScroll.scrollTo(value, { duration: 0, disableLerp: true })
+      : locoScroll.scroll.instance.scroll.y;
+  },
+  getBoundingClientRect() {
+    return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
+  },
+  pinType: scrollContainer.style.transform ? "transform" : "fixed",
+});
+
+// Every ScrollTrigger instance below now targets this scroller.
+ScrollTrigger.defaults({ scroller: scrollContainer });
+
+// Keep the two in sync after layout changes (images loading, resize, etc.).
+ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
+window.addEventListener("load", () => {
+  locoScroll.update();
+  ScrollTrigger.refresh();
+});
+
 gsap.to("nav", {
   backgroundColor: "#0D1117",
   height: "4vh",
   duration: 0.5,
   scrollTrigger: {
       trigger: ".nav",
-      scroller: "body",
       // markers : true,
       start: "top -10%",
       end: "top -11%",
@@ -27,29 +71,45 @@ function opentab(tabname){
   document.getElementById(tabname).classList.add("active-tab")
 }
 
-var typed = new Typed(".auto-typed",{
-  strings: ["web developer.","coder.", "freelancer"],
-  typeSpeed: 75,
-  backSpeed: 50,
-  loop: true
+/* ============================================================
+   HORIZONTAL SCROLL SECTION (replaces the old manual
+   `window.addEventListener('scroll', transform)` + CSS `position: sticky`
+   pair — neither survives Locomotive taking over scrolling).
+
+   .scroll_section holds 3 panels (projects, experience, education) —
+   300vw wide inside a 100vw viewport, so the pin needs to translate it
+   by exactly -200vw to reveal all three panels edge-to-edge.
+
+   self.progress runs 0→1 across the full pinned scroll distance (the
+   250vh gap between .sticky_parent's "top top" and "bottom bottom" —
+   350vh tall minus the 100vh viewport), so `self.progress * 200` maps
+   that 1:1 onto the 0→200vw translate: the panels finish revealing
+   exactly as the pin releases, with no flat/frozen scroll region.
+   (Previously this divided progress by 0.8 first, which maxed out the
+   translate at 80% of the scroll distance and then held the pin
+   completely still — no visible movement — for the remaining 20%,
+   which is what showed up as scrolling "freezing" after the third
+   panel.)
+   ============================================================ */
+
+ScrollTrigger.create({
+  trigger: ".sticky_parent",
+  start: "top top",
+  end: "bottom bottom",
+  pin: ".sticky",
+  pinSpacing: false, // .sticky_parent's own 350vh height already reserves the scroll room
+  invalidateOnRefresh: true,
+  onUpdate: (self) => {
+    const percentage = self.progress * 200;
+    gsap.set(".scroll_section", { x: `-${percentage}vw` });
+  },
 })
-
-const stickySections = [...document.querySelectorAll('.sticky')]
-
-window.addEventListener('scroll', (e) => {
-  for(let i = 0; i < stickySections.length; i++){
-      transform(stickySections[i])
-  }
-})
-
-function transform(section){
-  const offsetTop = section.parentElement.offsetTop;
-  const scrollSection = section.querySelector('.scroll_section')
-  let percentage = ((window.scrollY - offsetTop) / window.innerHeight) * 100;
-  percentage = percentage < 0 ? 0 : percentage > 200 ? 200 : percentage;
-  scrollSection.style.transform = `translate3d(${-(percentage)}vw, 0, 0)`
-}
 //APPROACH ONE
+// Guarded: these tab/panel elements aren't part of the current markup.
+// Querying them is harmless, but calling .addEventListener on a null
+// result throws and used to halt every script statement below this
+// block (including the reveal animations further down) — only wire
+// the tabs up when they actually exist.
 var t1 = document.querySelector("#tab1")
 var t2 = document.querySelector("#tab2")
 var t3 = document.querySelector("#tab3")
@@ -57,25 +117,31 @@ var p1 = document.querySelector("#p1")
 var p2 = document.querySelector("#p2")
 var p3 = document.querySelector("#p3")
 
-t1.addEventListener("click", function(){
-  removeAllElement()
-  p1.style.display = "block"
-})
-
-t2.addEventListener("click", function(){
-  removeAllElement()
-  p2.style.display = "block"
-})
-
-t3.addEventListener("click", function(){
-  removeAllElement()
-  p3.style.display = "block"
-})
-
 var removeAllElement = function(){
-  p1.style.display = "none"
-  p2.style.display = "none"
-  p3.style.display = "none"   
+  if (p1) p1.style.display = "none"
+  if (p2) p2.style.display = "none"
+  if (p3) p3.style.display = "none"
+}
+
+if (t1 && p1) {
+  t1.addEventListener("click", function(){
+    removeAllElement()
+    p1.style.display = "block"
+  })
+}
+
+if (t2 && p2) {
+  t2.addEventListener("click", function(){
+    removeAllElement()
+    p2.style.display = "block"
+  })
+}
+
+if (t3 && p3) {
+  t3.addEventListener("click", function(){
+    removeAllElement()
+    p3.style.display = "block"
+  })
 }
 
 //APPROACH TWO
@@ -93,8 +159,10 @@ const percentage = document.querySelectorAll('.percentage')
 let bol = false;
 let count; 
 
-window.addEventListener("scroll", ()=>{
-  if(pageYOffset > container.offsetTop - 400 && bol === false){
+// Was window.addEventListener("scroll", ...) reading pageYOffset — under Locomotive the
+// native scroll position stays at 0, so this is now driven by Locomotive's own scroll event.
+locoScroll.on("scroll", (obj) => {
+  if(container && obj.scroll.y > container.offsetTop - 400 && bol === false){
       for(let i = 0; i < progress.length; i++){
           percentage.innerText = 0;
           count = 0;
@@ -127,30 +195,19 @@ tl.from(".nav-left, .nav-right a",{
   stagger:0.2
 })
 
-tl.from(".home-content h4,.home-content h2, .home-content h1,.welcome",{
+tl.from(".home-content h1",{
   y: 50,
   opacity:0,
   duration:0.5,
   stagger:0.5
 })
 
-tl.from(".i",{
-  y: -25,
-  opacity:0,
-  duration:1,
-  stagger:0.5,
-  repeat:-1,
-  yoyo:true
-})
-
-tl.from(".overview-left img",{
-  x: -250,
+tl.from(".projects-marquee-track span",{
   opacity:0,
   duration:1,
   stagger:0.5,
   scrollTrigger:{
-      trigger: ".overview-left img",
-      scroller: "body",
+      trigger: ".projects",
       scrub:5,
       markers:false,
       start: "top 70%",
@@ -158,50 +215,17 @@ tl.from(".overview-left img",{
   }
 })
 
-tl.from(".overview-right h1, .overview-right h3, .overview-right h2, .overview-right p",{
+tl.from(".project-card",{
   y: 50,
   opacity:0,
   duration:0.5,
   stagger:0.5,
   scrollTrigger:{
-      trigger: ".overview-right",
-      scroller: "body",
+      trigger: ".projects-grid",
       scrub:5,
       markers:false,
       start: "top 80%",
       end: "top 30%"
-
-  }
-})
-
-tl.from(".social-media h3,",{
-  y: 50,
-  opacity:0,
-  duration:0.5,
-  stagger:0.5,
-  scrollTrigger:{
-      trigger: ".social-media",
-      scroller: "body",
-      scrub:5,
-      markers:false,
-      start: "top 80%",
-      end: "top 30%"
-
-  }
-})
-
-tl.from(".icon a",{
-  y: 50,
-  opacity:0,
-  duration:0.5,
-  stagger:0.5,
-  scrollTrigger:{
-      trigger: ".icon a",
-      scroller: "body",
-      scrub:5,
-      markers:false,
-      start: "top 70%",
-      end: "top 20%"
 
   }
 })
@@ -214,8 +238,7 @@ tl.to(".skills",{
   stagger:0.5,
   scrollTrigger:{
       trigger: ".skills h1",
-      scroller: "body",
-      markers:true,
+      markers:false,
       scrub:5,
       start: "top 70%",
       end: "top 20%"
@@ -223,90 +246,42 @@ tl.to(".skills",{
   }
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* ============================================================
+   REWORKED SECTION ENTRANCES (Work / Skills / Contact)
+   Same reveal pattern as the projects/experience panels above —
+   scrub-tied ScrollTrigger fades rather than a one-shot timeline,
+   since these panels sit inside the horizontal-scroll track and
+   aren't guaranteed to be "scrolled into view" vertically.
+   Respects prefers-reduced-motion, per the project's convention.
+   ============================================================ */
+
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  // Same trigger/scrub shape as the existing .project-card reveal above —
+  // .work-item lives inside the same pinned horizontal track as .projects-grid.
+  gsap.from(".work-item", {
+    y: 20,
+    opacity: 0,
+    duration: 0.5,
+    stagger: 0.15,
+    scrollTrigger: {
+      trigger: ".experience-work",
+      scrub: 5,
+      markers: false,
+      start: "top 80%",
+      end: "top 30%"
+    }
+  });
+
+  // .contact sits after the horizontal-scroll track resumes normal vertical
+  // flow, so a plain (non-scrubbed) reveal on true vertical entry works here.
+  gsap.from(".contact-heading-line, .contact-message, .contact-social-btn", {
+    y: 24,
+    opacity: 0,
+    duration: 0.6,
+    stagger: 0.08,
+    scrollTrigger: {
+      trigger: ".contact",
+      start: "top 75%"
+    }
+  });
+}
