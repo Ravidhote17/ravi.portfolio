@@ -5,6 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ravi.</title>
+    <!-- Applies the saved theme before first paint so there's no light/dark flash on load. -->
+    <script>
+        (function () {
+            try {
+                var savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'light') {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+            } catch (e) { /* localStorage unavailable — default (dark) theme is used */ }
+        })();
+    </script>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.css">
@@ -19,8 +30,27 @@
         <div class="nav-left">
             <span class="logo-text">ravi.portfolio</span>
         </div>
-        <div class="nav-right"></div>
+        <div class="nav-right">
+            <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <i class="ri-moon-line theme-icon theme-icon-dark" aria-hidden="true"></i>
+                <i class="ri-sun-line theme-icon theme-icon-light" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation"
+                aria-expanded="false" aria-controls="mobileNav">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
     </nav>
+    <div class="mobile-nav" id="mobileNav">
+        <a href="#home" class="mobile-nav-link">Home</a>
+        <a href="#projects" class="mobile-nav-link">Projects</a>
+        <a href="#experience" class="mobile-nav-link">Experience</a>
+        <a href="#education" class="mobile-nav-link">Education</a>
+        <a href="#contact" class="mobile-nav-link">Contact</a>
+    </div>
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
     <!-- Same reasoning as nav above: the cursor follower is position:fixed and purely
          decorative (pointer-events: none), so it lives outside the transformed scroll
          container too. aria-hidden since it carries no information of its own. -->
@@ -37,7 +67,7 @@
         <div class="sticky_parent">
             <div class="sticky">
                 <div class="scroll_section">
-                    <div class="projects">
+                    <div class="projects" id="projects">
                         <div class="projects-marquee">
                             <div class="projects-marquee-track">
                                 <span>Projects</span>
@@ -81,7 +111,7 @@
                             <h4><a href="https://www.google.com">See More of My Builds</a></h4>
                         </div>
                     </div>
-                    <div class="experience">
+                    <div class="experience" id="experience">
                         <div class="experience-columns">
                             <div class="experience-info">
                                 <h1 class="experience-heading">Currently Based <em>in</em><br><span
@@ -171,7 +201,7 @@
                         </div>
 
                     </div>
-                    <div class="education">
+                    <div class="education" id="education">
                         <div class="education-body">
                             <div class="education-tags">
                                 <div class="tag-sphere-wrap" id="tagSphereWrap">

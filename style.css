@@ -11,12 +11,43 @@
     box-sizing: border-box;
 }
 
+/* ============================================================
+   THEME VARIABLES
+   Default values below match the site's original (dark) colors
+   exactly, so nothing changes visually until the toggle is used.
+   [data-theme="light"] supplies the alternate palette. Only the
+   sections that were already solid dark backgrounds (nav, hero,
+   experience info column, education, contact/footer) key off
+   these — the white project cards / work-list panel were already
+   light and are intentionally left as-is in both themes.
+   ============================================================ */
+:root{
+    --page-bg: #010409;
+    --page-text: #ffffff;
+    --nav-text: #ffffff;
+    --muted-text: #A0A0A0;
+    --border-soft: rgba(255, 255, 255, 0.15);
+    --accent: #ff2d6b;
+}
+
+[data-theme="light"]{
+    --page-bg: #f4f5f7;
+    --page-text: #0d1117;
+    --nav-text: #0d1117;
+    --muted-text: #55606e;
+    --border-soft: rgba(13, 17, 23, 0.12);
+}
+
 html, body{
     /* height: 100vh removed — Locomotive Scroll sets overflow:hidden on <html> while it's
        active, so a fixed 100vh height here would clip the entire page to one screen. */
     width: 100vw;
     font-family: sans-serif;
-    background-color: #010409;
+    background-color: var(--page-bg);
+    transition: background-color 0.35s ease;
+    /* Safeguard only — the actual overflow sources (the horizontal pin
+       track, marquees, etc.) are fixed at their origin above/below. */
+    overflow-x: hidden;
 }
 
 .main{
@@ -24,7 +55,8 @@ html, body{
        grow to its full content height for Locomotive to measure the real scroll distance. */
     min-height: 100vh;
     width: 100vw;
-    background-color: #010409;
+    background-color: var(--page-bg);
+    transition: background-color 0.35s ease;
     /* overflow: hidden; */
 }
 
@@ -49,12 +81,22 @@ html, body{
 }
 
 .home-heading-line{
+    /* Intentionally NOT theme-linked: the hero keeps its own fixed dark
+       backdrop (see #home below) in both themes, so this stays white. */
     color: white;
     font-family: "Montserrat", sans-serif;
     font-size: 130px;
     font-weight: 700;
     letter-spacing: -5px;
     margin-right: 8vw;
+}
+
+#home{
+    /* Fixed dark backdrop, independent of the theme toggle, so the hero
+       (and the nav sitting directly above it) always reads correctly
+       against the white heading text — identical to the original
+       always-dark design regardless of which theme is active. */
+    background-color: #010409;
 }
 
 
@@ -76,7 +118,12 @@ nav{
     justify-content: space-between;
     padding: 2vw 5vw;
     position: static;
-    /* background-color: red; */
+    /* Fixed dark backdrop (same color the scroll-triggered GSAP animation
+       later transitions to) rather than transparent, so nav text stays
+       readable at the very top of the page regardless of theme — visually
+       identical to the original since the hero directly beneath it was
+       already this same dark color. */
+    background-color: #010409;
     color: white;
     z-index: 99;
 }
@@ -89,6 +136,7 @@ nav{
 }
 
 .logo-text{
+    /* Not theme-linked, to match nav's fixed dark backdrop below. */
     color: white;
     font-family: "poppins";
     font-size: 1.4vw;
@@ -115,9 +163,168 @@ nav{
     font-family: "poppins";
     text-transform: uppercase;
     display: flex;
-    justify-content: space-between;
-    gap: 2vw;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1.2vw;
     z-index: 2;
+}
+
+/* ============================================================
+   THEME TOGGLE + HAMBURGER (mobile nav)
+   ============================================================ */
+
+.theme-toggle{
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.theme-toggle:hover{
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.theme-toggle .theme-icon{
+    font-size: 16px;
+    line-height: 1;
+}
+
+.theme-icon-light{
+    display: none;
+}
+
+[data-theme="light"] .theme-icon-dark{
+    display: none;
+}
+
+[data-theme="light"] .theme-icon-light{
+    display: inline-block;
+}
+
+.hamburger{
+    display: none;
+    width: 34px;
+    height: 34px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.hamburger span{
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: white;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hamburger[aria-expanded="true"] span:nth-child(1){
+    transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger[aria-expanded="true"] span:nth-child(2){
+    opacity: 0;
+}
+
+.hamburger[aria-expanded="true"] span:nth-child(3){
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobile-nav{
+    display: none;
+}
+
+.mobile-nav-backdrop{
+    display: none;
+}
+
+@media screen and (max-width: 768px){
+    .hamburger{
+        display: flex;
+    }
+
+    .mobile-nav{
+        display: flex;
+        flex-direction: column;
+        gap: 6vw;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: min(75vw, 320px);
+        background-color: #0d1117;
+        padding: 22vw 8vw 8vw;
+        transform: translateX(100%);
+        transition: transform 0.35s ease;
+        z-index: 100;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .mobile-nav.is-open{
+        transform: translateX(0);
+    }
+
+    .mobile-nav-link{
+        color: white;
+        font-family: "poppins";
+        font-size: 5vw;
+        font-weight: 500;
+        text-decoration: none;
+        letter-spacing: 0.5px;
+        opacity: 0.85;
+        transition: opacity 0.2s ease, color 0.2s ease;
+    }
+
+    .mobile-nav-link:hover,
+    .mobile-nav-link:active{
+        opacity: 1;
+        color: #ff2d6b;
+    }
+
+    .mobile-nav-backdrop{
+        display: block;
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s ease;
+        z-index: 97;
+    }
+
+    .mobile-nav-backdrop.is-open{
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .theme-toggle{
+        width: 9vw;
+        height: 9vw;
+        min-width: 32px;
+        min-height: 32px;
+        max-width: 40px;
+        max-height: 40px;
+    }
+
+    .theme-toggle .theme-icon{
+        font-size: 4.2vw;
+        max-font-size: 18px;
+    }
 }
 
 .nav-right a{
@@ -323,6 +530,31 @@ section{
 }
 
 @media screen and (max-width: 768px){
+    .more-project{
+        padding: 0 6vw 8vw;
+    }
+
+    .more-project h4{
+        width: 100%;
+    }
+
+    .more-project a{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 4.2vw 5vw;
+        background-color: #0d1117;
+        color: #fff;
+        border-radius: 3vw;
+        font-size: 4vw;
+        font-weight: 500;
+        text-decoration: none;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 768px){
     .projects-marquee-track span{
         font-size: 14vw;
         padding-right: 6vw;
@@ -399,11 +631,12 @@ section{
     height: 100%;
     width: 100vw;
     flex-shrink: 0;
-    background-color: #010409;
-    color: white;
+    background-color: var(--page-bg);
+    color: var(--page-text);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    transition: background-color 0.35s ease, color 0.35s ease;
     /* padding-top: 3vh; */
 }
 
@@ -429,7 +662,7 @@ section{
     font-weight: 700;
     font-size: 4.7vw;
     line-height: 1.2;
-    color: white;
+    color: var(--page-text);
     text-transform: capitalize;
     margin: 0 0 2vh 0;
     margin-top: 8vw;
@@ -438,18 +671,18 @@ section{
 .experience-heading em{
     font-style: italic;
     font-weight: 400;
-    color: #fff;
+    color: var(--page-text);
 }
 
 .experience-location{
-    color: #ff2d6b;
+    color: var(--accent);
 }
 
 .experience-blurb{
     font-family: "poppins";
     font-size: 1.1vw;
     line-height: 1.7;
-    color: #fff;
+    color: var(--page-text);
     max-width: 100%;
     text-align: justify;
     margin-bottom: 3vw;
@@ -649,11 +882,12 @@ section{
     height: 100%;
     width: 100vw;
     flex-shrink: 0;
-    background-color: #010409;
-    color: white;
+    background-color: var(--page-bg);
+    color: var(--page-text);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    transition: background-color 0.35s ease, color 0.35s ease;
 }
 
 .education-body{
@@ -753,6 +987,11 @@ section{
 
 .education-marquee{
     flex-shrink: 0;
+    /* Fixed dark backdrop, independent of theme: the banded marquee rows
+       (white text on row-a/row-c, dark text on row-b) are a fixed
+       light/dark pairing by design, so the strip keeps its own always-dark
+       base rather than inheriting .education's theme-linked background. */
+    background-color: #010409;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -833,7 +1072,7 @@ section{
 }
 
 .education-date{
-    color: #ff2d6b;
+    color: var(--accent);
     font-family: "Montserrat";
     font-weight: 600;
     font-size: 1vw;
@@ -843,7 +1082,7 @@ section{
     font-family: "Montserrat";
     font-weight: 600;
     font-size: 1.3vw;
-    color: white;
+    color: var(--page-text);
     margin: 0;
 }
 
@@ -851,20 +1090,20 @@ section{
     font-family: "poppins";
     font-weight: 400;
     font-size: 1vw;
-    color: #A0A0A0;
+    color: var(--muted-text);
 }
 
 .education-item-right{
     font-family: "poppins";
     font-size: 1.2vw;
-    color: white;
+    color: var(--page-text);
     text-align: right;
     flex-shrink: 0;
 }
 
 .education-item-right span{
     display: block;
-    color: #A0A0A0;
+    color: var(--muted-text);
     font-size: 1vw;
     margin-top: 0.3vw;
 }
@@ -1137,13 +1376,14 @@ button{
 .contact{
     min-height: 100vh;
     width: 100vw;
-    background-color: #000;
+    background-color: var(--page-bg);
     font-family: "poppins";
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     padding: 6vw 7vw;
+    transition: background-color 0.35s ease;
 }
 
 .contact-inner{
@@ -1167,7 +1407,7 @@ button{
 }
 
 .contact-heading-white{
-    color: #fff;
+    color: var(--page-text);
 }
 
 .contact-heading-pink{
@@ -1179,7 +1419,8 @@ button{
 
 .contact-message{
     font-family: "poppins";
-    color: #e6e6e6;
+    color: var(--page-text);
+    opacity: 0.9;
     font-size: 1.05vw;
     max-width: 44vw;
     margin: 5vw auto 0;
@@ -1204,15 +1445,15 @@ button{
     width: 3.2vw;
     height: 3.2vw;
     border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    border: 1px solid var(--border-soft);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    color: var(--page-text);
     font-size: 1.3vw;
     text-decoration: none;
     flex-shrink: 0;
-    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
 }
 
 .contact-social-btn:hover{
@@ -1227,7 +1468,7 @@ button{
     align-items: center;
     gap: 0.6vw;
     margin-top: 2.5vw;
-    color: #A0A0A0;
+    color: var(--muted-text);
     font-size: 0.95vw;
 }
 
@@ -1366,5 +1607,44 @@ button{
 @media (prefers-reduced-motion: reduce){
     .cursor-follower{
         transition: opacity 0.25s ease;
+    }
+}
+
+/* ============================================================
+   MOBILE: DISABLE THE HORIZONTAL-PIN SCROLL TRACK
+   Placed last on purpose so it wins the cascade over the unconditional
+   (desktop) .sticky_parent/.sticky/.scroll_section/.projects/.experience/
+   .education rules above, which share the same selector specificity.
+   app.js pairs with this: it skips creating the ScrollTrigger pin and
+   disables Locomotive's smooth mode below this same breakpoint, so the
+   three panels just flow as normal stacked, vertically-scrolling
+   sections instead of sitting in a 300vw row waiting to be translated
+   into view.
+   ============================================================ */
+@media screen and (max-width: 768px){
+    .sticky_parent{
+        height: auto;
+    }
+
+    .sticky{
+        position: static;
+        height: auto;
+        overflow: visible;
+    }
+
+    .scroll_section{
+        position: static;
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        align-items: stretch;
+        transform: none !important;
+    }
+
+    .projects,
+    .experience,
+    .education{
+        width: 100%;
+        height: auto;
     }
 }
