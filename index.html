@@ -7,118 +7,248 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.css">
 
 </head>
 
 <body>
-    <div class="main">
+    <!-- Moved outside the Locomotive scroll container: Locomotive applies a CSS transform to
+         [data-scroll-container] to drive smooth scroll, and a transformed ancestor breaks
+         position:fixed on descendants. Living here as a sibling keeps nav truly viewport-fixed. -->
+    <nav>
+        <div class="nav-left">
+            <span class="logo-text">ravi.portfolio</span>
+        </div>
+        <div class="nav-right"></div>
+    </nav>
+    <!-- Same reasoning as nav above: the cursor follower is position:fixed and purely
+         decorative (pointer-events: none), so it lives outside the transformed scroll
+         container too. aria-hidden since it carries no information of its own. -->
+    <div class="cursor-follower" id="cursorFollower" data-state="default" aria-hidden="true"></div>
+    <div class="main" data-scroll-container>
         <div id="home">
-            <nav>
-                <div class="nav-left">
-                    <img src="assets/logo.png" alt="">
-                    <h3>ravi.portfolio</h3>
-                </div>
-                <div class="nav-right">
-                    <a href="#home">home</a>
-                    <a href="#about">about</a>
-                    <a href="#skills">skills</a>
-                    <a href="#projects">projects</a>
-                    <a href="#contact">contact</a>
-                </div>
-            </nav>
-
             <div class="home-content">
-                <h4>hello! i'm</h4>
-                <h1>ravi dhote</h1>
-                <h2>a <span style="color: #4493EA;" class="auto-typed"></span></h2>
+                <h1 class="home-heading">
+                    <span class="home-heading-line">Ravi Dhote</span>
+                    <span class="home-heading-script">Developer</span>
+                </h1>
             </div>
-            <h5 class="welcome">welcome to my space🚀</h5>
-            <div class="i"><i class="ri-arrow-down-line"></i></div>
-
-
         </div>
         <div class="sticky_parent">
             <div class="sticky">
                 <div class="scroll_section">
-                    <div class="about">
-                        <div class="overview">
-                            <div class="overview-left">
-                                <img src="assets/image.png" alt="">
-                                <!-- <div class="sq"></div> -->
-                            </div>
-                            <div class="overview-right">
-                                <h1>about</h1>
-                                <h3>Hi! I'm A Full-Stack Developer</h3>
-                                <h2>overview</h2>
-                                <p>
-                                    I am a motivated and versatile individual with a keen interest in Full Stack
-                                    Development and Programming. I always eager to take on new challenges. I am a quick
-                                    learner and open to working in any technology. With a passion for learning I am
-                                    dedicated to delivering high-quality results. With a positive attitude and a growth
-                                    mindset, I am ready to make a meaningful contribution and achieve great things.
-                                    Apart from this, I am avid Cricket enthusiast and a Fitness freak. </p>
-                                <div class="social-media">
-                                    <h3>Connect with me</h3>
-                                    <div class="icon">
-                                        <a href="https://www.instagram.com/ravi.dhote_/"><i
-                                                class="ri-linkedin-box-fill"></i></a>
-                                        <a href="https://github.com/Ravidhote17"><i class="ri-instagram-line"></i></a>
-                                        <a href="https://www.linkedin.com/in/ravi-dhote-4a959825a/"><i
-                                                class="ri-github-fill"></i></a>
-                                        <a href="https://x.com/ravidhote21?t=FfJg8UJczGD9XFtWg4p0nA&s=09"><i
-                                                class="ri-twitter-x-line"></i></a>
-                                    </div>
-
-                                </div>
+                    <div class="projects">
+                        <div class="projects-marquee">
+                            <div class="projects-marquee-track">
+                                <span>Projects</span>
+                                <span>Projects</span>
+                                <span>Projects</span>
+                                <span>Projects</span>
+                                <!-- duplicate set — required for the seamless -50% loop, not extra content -->
+                                <span>Projects</span>
+                                <span>Projects</span>
+                                <span>Projects</span>
+                                <span>Projects</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="education">
-                        <h1 id="ed">Education</h1>
-                        <div class="timeline">
-                            <div class="timeline-row">
-                                <div class="timeline-column">
-                                    <div class="timeline-box">
-                                        <div class="timeline-content">
-                                            <div class="content">
-                                                <h1> Bachelor's of Computer Application | <span>8.2 CGPA</span></h1>
-                                                <h3>2021-2024 | Shri Vaishnav Vidyapeeth Vishwavidyalaya</h3>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="timeline-content">
-                                            <div class="content">
-                                                <h1>Higher Secondary School | <span>9.5 CGPA</span></h1>
-                                                <h3>2020-2021 | Ramakrishna Mission Vidyapeeth</h3>
-                                            </div>
-                                        </div>
-                                        <div class="timeline-content">
-                                            <div class="content">
-                                                <h1>High School | <span>9.6 CGPA</span></h1>
-                                                <h3>2018-2019 | Ramakrishna Mission Vidyapeeth</h3>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="projects-grid">
+                            <div class="project-card">
+                                <span class="project-tag">featured</span>
+                                <h3 class="project-title">Fit-Frizz | Fitness Resource Platform</h3>
+                                <div class="project-image">
+                                    <img src="assets/Screenshot (150).png" alt="Fit-Frizz project preview">
                                 </div>
+
                             </div>
+                            <div class="project-card">
+                                <span class="project-tag">featured</span>
+                                <h3 class="project-title">Duo Studio Clone | Front-End Design Clone</h3>
+                                <div class="project-image">
+                                    <img src="assets/Screenshot (145).png" alt="Duo Studio Clone project preview">
+                                </div>
+
+                            </div>
+                            <div class="project-card">
+                                <span class="project-tag">featured</span>
+                                <h3 class="project-title">Urban Aura | E-Commerce Website</h3>
+                                <div class="project-image">
+                                    <img src="assets/Screenshot (155).png" alt="Urban Aura project preview">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="more-project">
+                            <h4><a href="https://www.google.com">See More of My Builds</a></h4>
                         </div>
                     </div>
                     <div class="experience">
-                        <h1 id="ex">experience</h1>
-                        <div class="timeline" id="tlex">
-                            <div class="timeline-row">
-                                <div class="timeline-column">
-                                    <div class="timeline-box">
-                                        <div class="timeline-content">
-                                            <div class="content">
-                                                <h1>Soon...</h1>
-                                            </div>
+                        <div class="experience-columns">
+                            <div class="experience-info">
+                                <h1 class="experience-heading">Currently Based <em>in</em><br><span
+                                        class="experience-location">Indore, India</span></h1>
+                                <p class="experience-blurb">
+                                    I'm exploring how <em class="accent">competitive coding</em>, problem-solving, and
+                                    thoughtful <em class="accent">web design</em> can come together to create engaging
+                                    digital experiences. As a <em class="accent">Full-Stack Developer</em>, I enjoy
+                                    building clean, scalable applications using ReactJS, NodeJS, ExpressJS, and MongoDB,
+                                    backed by a strong foundation in <em class="accent">Data Structures and
+                                        Algorithms</em>.
+
+                                    When I'm away from the code, you'll usually find me following <em
+                                        class="accent">cricket</em>, working on fitness, or exploring <em
+                                        class="accent">Geopolitics</em>. Always learning, always building, and always
+                                    curious about what's next.
+                                </p>
+                            </div>
+                            <div class="experience-work">
+
+                                <h2 class="experience-work-label">work</h2>
+
+                                <div class="work-list">
+                                    <div class="work-item">
+                                        <div class="work-item-left">
+                                            <span class="work-date">Dec 2024 - April 2025</span>
+                                            <h3>Tata Consultancy Services</h3>
+                                            <span class="work-location">Chennai, India</span>
                                         </div>
-                                        <div class="timeline-content">
-                                            <div class="content" id="exp">
-                                                <h1>Web Developer Intern <span id="oasis">@Oasis Infobytes</span></h1>
-                                                <h3>Jan 2024- Feb 2024</h3>
-                                            </div>
+                                        <div class="work-item-right">Graduate Trainee</div>
+                                    </div>
+                                    <div class="work-item">
+                                        <div class="work-item-left">
+                                            <span class="work-date">May 2025 - Present</span>
+                                            <h3>Tata Consultancy Services</h3>
+                                            <span class="work-location">Kolkata, India</span>
+                                        </div>
+                                        <div class="work-item-right">Assistant System Engineer</div>
+                                    </div>
+                                    <div class="work-item">
+                                        <div class="work-item-left">
+                                            <span class="work-date">__</span>
+                                            <h3>___</h3>
+                                            <span class="work-location">_</span>
+                                        </div>
+                                        <div class="work-item-right"></div>
+                                    </div>
+                                    <div class="work-item">
+                                        <div class="work-item-left">
+                                            <span class="work-date">__</span>
+                                            <h3>___</h3>
+                                            <span class="work-location">_</span>
+                                        </div>
+                                        <div class="work-item-right"></div>
+                                    </div>
+                                    <div class="work-item">
+                                        <div class="work-item-left">
+                                            <span class="work-date">__</span>
+                                            <h3>___</h3>
+                                            <span class="work-location">_</span>
+                                        </div>
+                                        <div class="work-item-right"></div>
+                                    </div>
+                                    <div class="work-item">
+                                        <div class="work-item-left">
+                                            <span class="work-date">__</span>
+                                            <h3>___</h3>
+                                            <span class="work-location">_</span>
+                                        </div>
+                                        <div class="work-item-right"></div>
+                                    </div>
+                                </div>
+                                <div class="experience-marquee">
+                                    <div class="experience-marquee-track">
+                                        <span>Experience</span>
+                                        <span>Experience</span>
+                                        <span>Experience</span>
+                                        <span>Experience</span>
+                                        <!-- duplicate set — required for the seamless -50% loop, not extra content -->
+                                        <span>Experience</span>
+                                        <span>Experience</span>
+                                        <span>Experience</span>
+                                        <span>Experience</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="education">
+                        <div class="education-body">
+                            <div class="education-tags">
+                                <div class="tag-sphere-wrap" id="tagSphereWrap">
+                                    <div class="tag-sphere" id="tagSphere"
+                                        aria-label="Technologies: Python, React, jQuery, Java, MySQL, Sass, Express, CSS, HTML, Mongoose, MongoDB, NodeJS, React JS, JavaScript, Swift">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="education-right">
+                                <div class="education-marquee">
+                                    <div class="education-marquee-row row-a">
+                                        <div class="education-marquee-track">
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <!-- duplicate set — required for the seamless -50% loop, not extra content -->
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                        </div>
+                                    </div>
+                                    <div class="education-marquee-row row-b">
+                                        <div class="education-marquee-track">
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                        </div>
+                                    </div>
+                                    <div class="education-marquee-row row-a">
+                                        <div class="education-marquee-track">
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                            <span>Education</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="education-list">
+                                    <div class="education-item">
+                                        <div class="education-item-left">
+                                            <span class="education-date">2021 - 2024</span>
+                                            <h3>Shri Vaishnav Vidyapeeth Vishwavidyalaya</h3>
+                                            <span class="education-location">Indore, India</span>
+                                        </div>
+                                        <div class="education-item-right">
+                                            Bachelor's of Computer Application <span>8.05 CGPA</span>
+                                        </div>
+                                    </div>
+                                    <div class="education-item">
+                                        <div class="education-item-left">
+                                            <span class="education-date">2020 - 2021</span>
+                                            <h3>Ramakrishna Mission Vidyapeeth</h3>
+                                            <span class="education-location">Indore, India</span>
+                                        </div>
+                                        <div class="education-item-right">
+                                            Higher Secondary School <span>9.5 CGPA</span>
+                                        </div>
+                                    </div>
+                                    <div class="education-item">
+                                        <div class="education-item-left">
+                                            <span class="education-date">2018 - 2019</span>
+                                            <h3>Ramakrishna Mission Vidyapeeth</h3>
+                                            <span class="education-location">Indore, India</span>
+                                        </div>
+                                        <div class="education-item-right">
+                                            High School <span>9.6 CGPA</span>
                                         </div>
                                     </div>
                                 </div>
@@ -128,240 +258,53 @@
                 </div>
             </div>
         </div>
-        <div class="skills">
-            <h1>skills</h1>
-            <div class="skill-section">
-
-                <div class="tab">
-                    <button id="tab1">FRONT-END</button><br>
-                    <button id="tab2">BACK-END</button><br>
-                    <button id="tab3">DATA-STRUCTURES</button>
+        <div class="contact" id="contact">
+            <div class="contact-inner">
+                <div class="contact-heading">
+                    <h2 class="contact-heading-line contact-heading-white">Let's Work</h2>
+                    <h2 class="contact-heading-line contact-heading-pink">Together</h2>
                 </div>
-                <div class="txt">
-                    <ul id="p1" class="progress-bars">
-                        <h3>HTML</h3>
-                        <li>
-                            <div class="bar">
-                                <div class="progress" data-count="70"></div>
-                            </div>
-                            <span class="percentage">50%</span>
-                        </li>
-                        <h3>CSS</h3>
-                        <li>
-                            <div class="bar">
-                                <div class="progress" data-count="55"></div>
-                            </div>
-                            <span class="percentage">50%</span>
-                        </li>
-                        <h3>JavaScript</h3>
-                        <li>
-                            <div class="bar">
-                                <div class="progress" data-count="40"></div>
-                            </div>
-                            <span class="percentage">50%</span>
-                        </li>
-                        <h3>Redux</h3>
-                        <li>
-                            <div class="bar">
-                                <div class="progress" data-count="20"></div>
-                            </div>
-                            <span class="percentage">50%</span>
-                        </li>
-                        <h3>UI/UX</h3>
-                        <li>
-                            <div class="bar">
-                                <div class="progress" data-count="35"></div>
-                            </div>
-                            <span class="percentage">50%</span>
-                        </li>
-                    </ul>
-
-                    <ul id="p2" style="display: none;" class="progress-bars">
-                        <h3>NodeJS</h3>
-                        <li>
-                            <div class="bar">
-                                <div class="progress" data-count="25"></div>
-                            </div>
-                            <span class="percentage">50%</span>
-                        </li>
-                        <h3>ExpressJS</h3>
-                        <li>
-                            <div class="bar">
-                                <div class="progress" data-count="15"></div>
-                            </div>
-                            <span class="percentage">50%</span>
-                        </li>
-                        <h3>MS SQL</h3>
-                        <li>
-                            <div class="bar">
-                                <div class="progress" data-count="40"></div>
-                            </div>
-                            <span class="percentage">50%</span>
-                        </li>
-                        <h3>MongoDB</h3>
-                        <li>
-                            <div class="bar">
-                                <div class="progress" data-count="20"></div>
-                            </div>
-                            <span class="percentage">50%</span>
-                        </li>
-                        <h3>APIs</h3>
-                        <li>
-                            <div class="bar">
-                                <div class="progress" data-count="10"></div>
-                            </div>
-                            <span class="percentage">50%</span>
-                        </li>
-                    </ul>
-
-
-                    <div id="p3" style="display: none;" class="dsa">
-                        <div class="dsa-top">
-                            <div class="p">
-                                <h3>Data Structures & Algorithm</h3>
-                                <p>Lorem ip Lorem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem,
-                                    voluptatum? Dolorum at inventor odit? Cumque saepe pariatur itaque.sum dolor sit
-                                    amet consectetur, adipisicing elit. Neque cum impedit modi commodi id quis inventore
-                                    voluptas culpa aspernatur, quas, officia suscipit, ipsum nostrum eum.</p>
-                            </div>
-                            <div class="dev">
-                                <a href="https://app.daily.dev/ravidhote"><img
-                                        src="https://api.daily.dev/devcards/v2/0CID6eWNWGSn1Y3MQMxXo.png?type=default&r=vpj"
-                                        width="256" alt="Ravi Dhote's Dev Card" /></a>
-                            </div>
-                        </div>
-                        <div class="dsa-bottom">
-                            <h3>Github Stats -</h3>
-                            <img src="assets/githubStats.png" alt="">
-                        </div>
-                    </div>
+                <p class="contact-message">
+                    Have a <em>project idea</em>, an interesting <em>problem</em> to solve, or just curious about what I build? Don't <em>hesitate</em> to get in touch — I'm always up for a good <em>conversation</em> or exploring something new.
+                </p>
+                <div class="contact-socials">
+                    <a class="contact-social-btn" href="https://github.com/Ravidhote17" target="_blank"
+                        rel="noopener noreferrer" aria-label="GitHub">
+                        <i class="ri-github-fill"></i>
+                    </a>
+                    <a class="contact-social-btn" href="https://x.com/ravidhote21?t=FfJg8UJczGD9XFtWg4p0nA&s=09"
+                        target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                        <i class="ri-twitter-x-fill"></i>
+                    </a>
+                    <a class="contact-social-btn" href="https://www.instagram.com/ravi.dhote_/" target="_blank"
+                        rel="noopener noreferrer" aria-label="Instagram">
+                        <i class="ri-instagram-line"></i>
+                    </a>
+                    <a class="contact-social-btn" href="https://www.linkedin.com/in/ravi-dhote-4a959825a/"
+                        target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <i class="ri-linkedin-fill"></i>
+                    </a>
                 </div>
-            </div>
-        </div>
-
-        <div class="project">
-            <h1>projects</h1>
-            <div class="proj">
-                <img src="assets/Screenshot (150).png" alt="">
-                <div class="proj-txt">
-                    <h3>Fit-Frizz &nbsp; <a href="https://github.com/Ravidhote17/Fit-Frizz"><i class="ri-github-line"></i></a>
-                        <a href="https://ravidhote17.github.io/Fit-Frizz/"><i class="ri-global-line"></i></a></h3>
-                    <p>Developed Fit-Frizz, a comprehensive and user-friendly fitness resource website designed to cater to fitness enthusiasts of all levels. The platform offers personalized workout plans, detailed nutrition tips, and motivational content to help users achieve their health and wellness goals
-                    </p>
-                </div>
-            </div>
-            <hr>
-            <div class="proj">
-                <img src="assets/Screenshot (145).png" alt="">
-                <div class="proj-txt">
-                    <h3>Duo Studio Clone &nbsp; <a href="https://github.com/Ravidhote17/Duo-Studio-Website"><i class="ri-github-line"></i></a>
-                        <a href="https://ravidhote17.github.io/Duo-Studio-Website/"><i class="ri-global-line"></i></a></h3>
-                    <p>Crafted a Duo Studio clone, highlighting my capability in recreating intricate designs, executing and showcasing proficiency in front-end technologies and design implementation. The project exemplifies my adeptness at replicating complex layouts while ensuring seamless functionality across various devices. 
-                    </p>
-
-                </div>
-            </div>
-            <hr>
-            <div class="proj">
-                <img src="assets/Screenshot (155).png" alt="">
-                <div class="proj-txt">
-                    <h3>Urban Aura &nbsp; <a href="https://github.com/Ravidhote17/Urban-Aura"><i class="ri-github-line"></i></a>
-                    <p>
-                        Designed and implemented an e-commerce website and simulate a seamless shopping experience. Leveraging intuitive navigation and visually appealing design elements, the website offers a user-friendly interface for browsing a diverse range of products.
-                    </p>
-                </div>
-            </div>
-            <hr>
-            <div class="proj">
-                <img src="assets/Screenshot (158).png" alt="">
-                <div class="proj-txt">
-                        <h3>Bubble Chase &nbsp; <a href="https://github.com/Ravidhote17/Bubble-Chase"><i class="ri-github-line"></i></a>
-                            <a href="https://ravidhote17.github.io/Bubble-Chase/"><i class="ri-global-line"></i></a>
-                        </h3>
-                    <p>Created an interactive game where players are tasked with clicking on randomly generated numbers within a given time limit. The game dynamically tracks and enhances the user's score, rewarding accuracy and speed. Built with intuitive gameplay mechanics using HTML, CSS, and JavaScript, the game provides a captivating experience for players of all skill levels.
-                    </p>
-                </div>
-            </div>
-            <hr>
-            <div class="proj">
-                <img src="assets/Screenshot (156).png" alt="">
-                <div class="proj-txt">
-                    <h3>Text to Emoji Converter &nbsp; <a href="https://github.com/Ravidhote17/Text-to-Emoji-Converter"><i class="ri-github-line"></i></a>
-                        <a href="https://ravidhote17.github.io/Text-to-Emoji-Converter/"><i class="ri-global-line"></i></a></h3>
-                    <p>Designed and developed a Text to Emoji Converter application, enabling users to easily convert text into emoji symbols, the application provides a straightforward interface for seamless conversion. By bridging text with expressive emojis, it enhances online communication in a user-friendly manner.</p>
-                </div>
-            </div>
-            <hr>
-
-        </div>
-        <div class="contact">
-            <div class="contact-info">
-                <h1>Let's Talk!</h1>
-                <img src="assets/logo.png" alt="">
-                <div class="footer">
-                    <div class="pages">
-                        <h3>Pages</h3>
-                        <ul>
-                            <a href="#home">
-                                <li>home</li>
-                            </a>
-                            <a href="#about">
-                                <li>about</li>
-                            </a>
-                            <a href="#skills">
-                                <li>skills</li>
-                            </a>
-                            <a href="#projects">
-                                <li>projects</li>
-                            </a>
-                            <a href="#contact">
-                                <li>contact</li>
-                            </a>
-                        </ul>
-                    </div>
-                    <div class="socials">
-                        <h3>Social</h3>
-                        <ul>
-                            <a href="https://github.com/Ravidhote17">
-                                <li>github</li>
-                            </a>
-                            <a href="https://www.linkedin.com/in/ravi-dhote-4a959825a/">
-                                <li>linkedin</li>
-                            </a>
-                            <a href="https://x.com/ravidhote21?t=FfJg8UJczGD9XFtWg4p0nA&s=09">
-                                <li>twitter</li>
-                            </a>
-                            <a href="https://www.instagram.com/ravi.dhote_/">
-                                <li>instagram</li>
-                            </a>
-                        </ul>
-                    </div>
-                </div>
-                <div class="email">
+                <div class="contact-email">
                     <i class="ri-mail-line"></i>
-                    <p> ravidhote101@gmail.com</p>
+                    <a href="mailto:ravidhote101@gmail.com">ravidhote101@gmail.com</a>
                 </div>
             </div>
-
-            <div class="form">
-                <form>
-                    <input type="text" name="name" placeholder="Your Name" required>
-                    <input type="email" name="email" placeholder="Your Email" required>
-                    <textarea name="Message" rows="7" placeholder="Your Message"></textarea>
-                    <button id="send" type="submit">Send</button>
-                </form>
-            </div>
-
         </div>
     </div>
 
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.js"></script> -->
+    <!-- Self-contained: has no dependency on GSAP/ScrollTrigger/Locomotive, so it
+         always runs even if those CDN scripts fail to load. -->
+    <script src="tag-sphere.js"></script>
+    <script src="cursor.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
         integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+        integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
     <script src="app.js"></script>
 </body>
 

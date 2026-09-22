@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
+@import url('https://fonts.cdnfonts.com/css/brittany-signature');
+@import url('https://fonts.gstatic.com');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
 *{
     margin: 0;
@@ -8,14 +12,17 @@
 }
 
 html, body{
-    height: 100vh;
+    /* height: 100vh removed — Locomotive Scroll sets overflow:hidden on <html> while it's
+       active, so a fixed 100vh height here would clip the entire page to one screen. */
     width: 100vw;
     font-family: sans-serif;
     background-color: #010409;
 }
 
 .main{
-    height: 100vh;
+    /* height: 100vh -> min-height: 100vh — the data-scroll-container needs to be able to
+       grow to its full content height for Locomotive to measure the real scroll distance. */
+    min-height: 100vh;
     width: 100vw;
     background-color: #010409;
     /* overflow: hidden; */
@@ -24,8 +31,41 @@ html, body{
 .home-content{
     height: 100vh;
     width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: center;
+    padding-bottom: 8vw;
     /* background-color: #010409;  */
     /* overflow: hidden; */
+}
+
+
+.home-heading{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    line-height: 0.9;
+}
+
+.home-heading-line{
+    color: white;
+    font-family: "Montserrat", sans-serif;
+    font-size: 130px;
+    font-weight: 700;
+    letter-spacing: -5px;
+    margin-right: 8vw;
+}
+
+
+.home-heading-script{
+    font-family: "Great Vibes", cursive;
+    color: #ff2d6b;
+    font-weight: 900;
+    font-size: 12vw;
+    line-height: 1;
+    margin-top: -2.8vw;
+    margin-left: 15vw;
 }
 
 nav{
@@ -35,7 +75,7 @@ nav{
     align-items: center;
     justify-content: space-between;
     padding: 2vw 5vw;
-    position: fixed;
+    position: static;
     /* background-color: red; */
     color: white;
     z-index: 99;
@@ -48,8 +88,17 @@ nav{
     gap: 1vw;
 }
 
+.logo-text{
+    color: white;
+    font-family: "poppins";
+    font-size: 1.4vw;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: lowercase;
+    margin-top: 1vw;
+}
+
 .nav-left h3{
-    color: #338cea;
     font-size: 1.3vw;
     font-weight: 400;
     letter-spacing: 2px;
@@ -86,59 +135,6 @@ nav{
 }
 
 
-.home-content h4{
-    color: #A0A0A0;
-    font-size: 1.5vw;
-    text-align: center;
-    text-transform: uppercase;
-    font-family: "poppins";
-    font-weight: 500;
-    letter-spacing: 3px;
-    /* margin-top: 15vw; */
-    padding: 13vw ;
-}
-
-.home-content h1{
-    color: white;
-    font-size: 4.5vw;
-    text-align: center;
-    text-transform: uppercase;
-    font-family: "poppins";
-    font-weight: 700;
-    letter-spacing: 8px;
-    margin-top: -13vw;
-}
-
-.home-content h2{
-    color: white;
-    font-size: 1.8vw;
-    text-align: center;
-    text-transform: lowercase;
-    font-family: "poppins";
-    font-weight: 500;
-    letter-spacing: 3px;
-}
-
-.home-content h2 span{
-    color: #A0A0A0;
-    font-size: 2vw;
-    text-align: center;
-    text-transform:uppercase;
-    font-family: "poppins";
-    font-weight: 500;
-}
-
-#home h5{
-    font-size: 1vw ;
-    color: white;
-    text-align: center;
-    margin-top: -8vw;
-    font-family: "Montserrat";
-    text-transform: uppercase;
-    font-weight: 400;
-    letter-spacing: 2px;
-}
-
 .i{
     font-size: 1.5vw;
     color: white;
@@ -151,14 +147,21 @@ section{
 }
 
 .sticky_parent{
+    /* 3 panels again (projects, experience, education) — back to the
+       original 350vh / 300vw / *200 scroll math. */
     height: 350vh;
     /* width: 100vh; */
     z-index: 1;
+    /* color: white; */
 }
 
 .sticky{
     overflow: hidden;
-    position: sticky;
+    /* position: sticky -> relative: native `position: sticky` stops working once an
+       ancestor gets a CSS transform, which is exactly how Locomotive Scroll drives
+       smooth scrolling. GSAP ScrollTrigger now pins this element instead (same visual
+       result — held in place for the duration of .sticky_parent's height). */
+    position: relative;
     top: 0;
     height: 100vh;
     /* border: 2px solid red; */
@@ -168,6 +171,7 @@ section{
     position: absolute;
     top: 0;
     height: 100%;
+    /* 3 panels again: projects, experience, education */
     width: 300vw;
     will-change: transform;
     display: flex;
@@ -176,218 +180,693 @@ section{
     /* padding: 0 0vw; */
 }
 
-.about{
+.projects{
+    /* Replaces the old .about panel in this horizontal-scroll slot.
+       width:100vw + flex-shrink:0 makes this panel exactly one viewport
+       wide inside .scroll_section's flex row — the old .about had
+       width:50%, which (per flexbox's shrink math on a 300vw row) was
+       actually rendering at ~60vw, not the intended 100vw. Pinning this
+       panel to a hard 100vw also corrects that shared shrink distortion
+       for its sibling, so .experience now lands on exactly 100vw too. */
     height: 100%;
-    width: 50%;
-    background-color: #010409;
+    width: 100vw;
+    flex-shrink: 0;
+    background-color: #fff;
+    color: black;
+    overflow: hidden;
     display: flex;
+    flex-direction: column;
+    padding-top: 3vh;
 }
 
-.overview{
-    display: flex;
-    margin-top: 4vw;
-    /* border: 2px solid red; */
-}
-
-.overview-left{
-    height: 100vh;
-    width: 40vw;
-    /* background-color: royalblue; */
-}
-
-.overview-left img{
-    height: 50vh;
-    /* opacity: 0.2; */
-    /* border: 2px solid white;
-    border-radius: 50%; */
-    margin: 8vw 8vw;
-}
-
-.overview-left .sq{
-    height: 50vh;
-    width: 27vw;
-    border: 4px solid #A0A0A0;
-    margin: -28.5vw 6vw;
-}
-
-.overview-right{
-    height: 100vh;
-    width: 60vw;
-    /* background-color: salmon; */
-}
-
-.overview-right h1{
-    font-size: 10vw;
-    font-weight: 800;
-    font-family: "poppins";
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin: -1vw 5vw;
-    color: white;
-    opacity: 0.15;
-}
-
-.overview-right h3{
-    color: white;
-    font-size: 2vw;
-    font-weight: 400;
-    font-family: "poppins";
-    margin-left: 8vw;
-    margin-top: -9vw;
-}
-
-.overview-right h2{
-    font-size: 2vw;
-    color: #338cea;
-    font-family: "Montserrat";
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    padding: 6vw 5vw;
-}
-
-.overview-right p{
-    font-size: 1.2vw;
-    color: white;
-    opacity: 0.5;
-    font-family: "poppins";
-    margin: -5vw 5vw;
-
-}
-
-.social-media h3{
-    font-size: 2vw;
-    color: white;
-    font-weight: 400;
-    font-family: "Montserrat";
-    text-transform: uppercase;
-    margin-top: 8vw;
-    margin-left: 5vw;
-    letter-spacing: 1px;
-}
-
-.icon{
-    margin-left: 4vw;
-    margin-top: 1vw;
-}
-
-.icon a{
-    text-decoration: none;
-    color: #338cea;
-}
-
-.social-media i{
-    font-size: 2vw;
-    padding: 1vw;
-    margin-top: 1vw;
-}
-
-.education{
-    height: 108%;
+.projects-marquee{
     width: 100%;
-    background-color: #010409;
-    color: white;
-    margin-top: 20vw;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 1.5vh;
+    margin-bottom: 4vh;
+    flex-shrink: 0;
+    background-color: #fff;
 }
 
-.education #ed{
-    font-size: 2.5vw;
-    color: #338cea;
-    font-family: "Montserrat";
-    text-transform: uppercase;
-    /* padding: 0vw 45vw; */
-    margin-left: 42vw;
-    /* margin-top: -5vw; */
+.projects-marquee-track{
+    display: flex;
+    width: max-content;
+    /* Two identical copies of the word list, translated by exactly -50%:
+       the point where copy 2 lines up perfectly with where copy 1 started,
+       so the loop has no visible seam or jump. */
+    animation: projects-marquee 18s linear infinite;
+    will-change: transform;
+    /* color: white; */
 }
 
-
-.content h1{
-    font-size: 1.8vw;
-    font-family: "Montserrat";
-    font-weight: 500;
-    color: #338cea;
-}
-
-.content span{
-    color: #A0A0A0;
-    font-size: 1.3vw;
-}
-
-.content h3{
+.projects-marquee-track span{
     font-family: "poppins";
-    font-weight: 400;
-    color: white;
-    font-size: 1.2vw;
+    font-weight: 800;
+    font-size: 7vw;
+    line-height: 1;
+    color: black;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-right: 3vw;
 }
 
-.timeline{
+@keyframes projects-marquee{
+    from{ transform: translateX(0); }
+    to{ transform: translateX(-50%); }
+}
+
+.projects-grid{
+    flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 4vw;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2vw;
+    padding: 0 4vw;
+    min-height: 0;
 }
 
-.timeline .timeline-row{
+.project-card{
+    width: 30%;
     display: flex;
-    column-gap: 64px;
+    flex-direction: column;
+    min-height: 0;
 }
 
-.timeline-column {
-    border-left: 3px solid white;
+.project-card .project-tag{
+    color: #ff2d6b;
+    font-family: "Montserrat";
+    font-weight: 600;
+    font-size: 1vw;
+    text-transform: lowercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.6vw;
 }
 
-.timeline-column .timeline-content{
-    padding-left: 27px;
+.project-card .project-title{
+    font-family: "poppins";
+    font-size: 1vw;
+    font-weight: 500;
+    color: black;
+    margin-bottom: 1.2vw;
 }
 
-.timeline-content .content{
-    padding: 1vw;
-    border: 2px solid white;
-    border-radius: 1vw;
-    margin-bottom: 2vw;
+.project-card .project-image{
+    width: 100%;
+    height: 42vh;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 0.4vw;
+    background-color: #0d1117;
 }
 
-.timeline-box .timeline-content{
-    position: relative;
+.project-card .project-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease, opacity 0.6s ease;
 }
 
-.timeline-box .timeline-content::before{
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -0.70vw;
-    width: 1.2vw;
-    height: 1.2vw;
-    background-color: white;
-    border-radius: 50%;
+.project-card:hover .project-image img{
+    transform: scale(1.06);
+    opacity: 0.85;
 }
 
-.timeline-content #exp span{
+.project-card .project-links{
+    margin-top: 1vw;
+    display: flex;
+    gap: 1vw;
+}
+
+.project-card .project-links a{
     color: #A0A0A0;
+    font-size: 1.1vw;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.project-card .project-links a:hover{
+    color: #338cea;
+}
+
+.more-project {
+    padding-left: 43vw;
+    padding-bottom: 5vw;
+}
+
+.more-project a{
+    color: #222;
+    font-weight: 400;
+    font: "poppins";
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px){
+    .projects-marquee-track span{
+        font-size: 14vw;
+        padding-right: 6vw;
+    }
+
+    .experience-marquee-track span{
+        font-size: 14vw;
+        padding-right: 6vw;
+    }
+
+    .education-marquee-track span{
+        font-size: 9vw;
+        line-height: 1.4;
+        padding-right: 4vw;
+    }
+
+    .education-item{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5vh;
+        padding: 3vw 0;
+    }
+
+    .education-date,
+    .education-location,
+    .education-item-right{
+        font-size: 3.2vw;
+    }
+
+    .education-item-left h3{
+        font-size: 4.2vw;
+    }
+
+    .education-item-right{
+        text-align: left;
+    }
+
+    .education-item-right span{
+        font-size: 3.2vw;
+    }
+
+    .projects-grid{
+        flex-direction: column;
+        overflow-y: auto;
+        gap: 5vh;
+        padding: 0 6vw;
+    }
+
+    .project-card{
+        width: 100%;
+    }
+
+    .project-card .project-tag{
+        font-size: 3vw;
+    }
+
+    .project-card .project-title{
+        font-size: 4vw;
+    }
+
+    .project-card .project-image{
+        height: 22vh;
+    }
+
+    .project-card .project-links a{
+        font-size: 4vw;
+    }
 }
 
 .experience{
-    height: 108%;
-    width: 100%;
+    /* Now occupies the panel Education used to occupy: same 100vw slot in
+       .scroll_section, filling the full pinned viewport height so the
+       marquee below can sit flush against the bottom of the section. */
+    height: 100%;
+    width: 100vw;
+    flex-shrink: 0;
     background-color: #010409;
     color: white;
-    margin-top: 35vw;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    /* padding-top: 3vh; */
 }
 
-.experience #ex{
-    font-size: 2.5vw;
-    color: #338cea;
+.experience-columns{
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    min-height: 0;
+}
+
+.experience-info{
+    width: 50%;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2vh 2vw;
+    position: relative;
+}
+
+.experience-heading{
     font-family: "Montserrat";
+    font-weight: 700;
+    font-size: 4.7vw;
+    line-height: 1.2;
+    color: white;
+    text-transform: capitalize;
+    margin: 0 0 2vh 0;
+    margin-top: 8vw;
+}
+
+.experience-heading em{
+    font-style: italic;
+    font-weight: 400;
+    color: #fff;
+}
+
+.experience-location{
+    color: #ff2d6b;
+}
+
+.experience-blurb{
+    font-family: "poppins";
+    font-size: 1.1vw;
+    line-height: 1.7;
+    color: #fff;
+    max-width: 100%;
+    text-align: justify;
+    margin-bottom: 3vw;
+}
+
+.experience-blurb em.accent{
+    font-style: italic;
+    font-weight: 500;
+    color: #ff2d6b;
+}
+
+.experience-work{
+    width: 50%;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    min-height: 0;
+    background-color: #fff;
+}
+
+
+.experience-work-label{
+    font-family: "Montserrat";
+    font-weight: 700;
+    font-size: 2vw;
+    color: #ff2d6b;
+    text-transform: lowercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    background-color: #000;
+    width: 100%;
+    margin: 0;
+    padding: 1.4vw 2.5vw;
+}
+
+
+
+.work-list{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 0;
+    background-color: #fff;
+    color: black;
+    /* padding: 0vh 1vw; */
+}
+
+.work-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2vw;
+    padding: 1vw 2.5vw;
+    border-bottom: 1px solid rgb(0, 0, 0);
+    color: black;
+    transition: background-color 0.25s ease;
+    width: 100%;
+}
+
+.work-item:last-child{
+    border-bottom: none;
+}
+
+
+
+.work-item-left{
+    display: flex;
+    flex-direction: column;
+    gap: 0.3vw;
+    
+}
+
+.work-date{
+    color: #ff2d6b;
+    font-family: "Montserrat";
+    font-weight: 400;
+    font-size: 1vw;
+}
+
+.work-item-left h3{
+    font-family: "Montserrat";
+    font-weight: 600;
+    font-size: 1.2vw;
+    margin: 0;
+}
+
+.work-location{
+    font-family: "poppins";
+    font-weight: 400;
+    font-size: 0.8vw;
+    color: #222;
+}
+
+.work-item-right{
+    font-family: "poppins";
+    font-size: 1.1vw;
+    text-align: right;
+    flex-shrink: 0;
+    font-weight: 400;
+}
+
+.work-item-soon .work-item-left h3{
+    font-weight: 400;
+    font-style: italic;
+}
+
+@media screen and (max-width: 768px){
+    .experience-columns{
+        flex-direction: column;
+    }
+
+    .experience-info,
+    .experience-work{
+        width: 100%;
+    }
+
+    .experience-info{
+        padding: 3vh 5vw;
+    }
+
+    .experience-heading{
+        font-size: 8vw;
+    }
+
+    .experience-blurb{
+        font-size: 4vw;
+        max-width: 100%;
+        text-align: left;
+    }
+
+    .experience-work-label{
+        font-size: 5vw;
+        padding: 4vw 5vw;
+    }
+
+    .work-list{
+        padding: 1vh 5vw;
+    }
+
+    .work-date,
+    .work-location,
+    .work-item-right{
+        font-size: 3.2vw;
+    }
+
+    .work-item-left h3{
+        font-size: 4.2vw;
+    }
+
+    .work-item{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5vh;
+    }
+
+    .work-item-right{
+        text-align: left;
+    }
+}
+
+.experience-marquee{
+    width: 100%;
+    overflow: hidden;
+    border-top: 1px solid rgb(0, 0, 0);
+    /* padding-top: 1.5vh; */
+    /* pushes the marquee to the bottom of the flex column, however much
+       (or little) timeline content sits above it */
+    margin-top: auto;
+    flex-shrink: 0;
+
+}
+
+.experience-marquee-track{
+    display: flex;
+    width: max-content;
+    /* Same seamless -50% loop technique as .projects-marquee-track. */
+    animation: projects-marquee 18s linear infinite;
+    will-change: transform;
+    background-color: white;
+}
+
+.experience-marquee-track span{
+    font-family: 'montserrat';
+    font-weight: 600;
+    font-size: 5vw;
+    /* line-height: 1; */
+    color: black;
+    /* text-transform: uppercase; */
+    white-space: nowrap;
+    padding-right: 3vw;
+}
+
+.education{
+    /* New third panel in .scroll_section, added after .experience. */
+    height: 100%;
+    width: 100vw;
+    flex-shrink: 0;
+    background-color: #010409;
+    color: white;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.education-body{
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    min-height: 0;
+}
+
+.education-tags{
+    width: 50%;
+    height: 100%;
+    flex-shrink: 0;
+    position: relative;
+    background-color: #000;
+    overflow: hidden;
+}
+
+.education-right{
+    width: 50%;
+    height: 100%;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* ============================================================
+   3D TAG SPHERE
+   ============================================================ */
+
+.tag-sphere-wrap{
+    position: absolute;
+    inset: 0;
+    perspective: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+}
+
+.tag-sphere{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.tag-sphere-item{
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-family: "Montserrat", Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 1.1vw;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
-    margin-left: 42vw;
-    margin-top: -8vw;
+    color: #f1f1f1;
+    white-space: nowrap;
+    cursor: default;
+    user-select: none;
+    touch-action: none;
+    will-change: transform, opacity;
+    transition: color 0.25s ease;
 }
 
-#tlex{
-    margin-top: 3vw;
+.tag-sphere-item.is-hovered{
+    color: #ff2d6b;
 }
 
-#oasis{
-    font-size: 1.5vw;
+@media (prefers-reduced-motion: reduce){
+    .tag-sphere-item{
+        transition: none;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .education-body{
+        flex-direction: column;
+    }
+
+    .education-tags{
+        width: 100%;
+        height: 42%;
+    }
+
+    .education-right{
+        width: 100%;
+        height: 58%;
+    }
+
+    .tag-sphere-item{
+        font-size: 3vw;
+    }
+}
+
+.education-marquee{
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.education-marquee-row{
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Middle row is color-inverted (dark text on a light strip) so the three
+   rows read as alternating bands, same as the reference screenshot. */
+.education-marquee-row.row-b{
+    background-color: #ffffff;
+}
+
+.education-marquee-row.row-b .education-marquee-track span{
+    color: #010409;
+}
+
+.education-marquee-track{
+    display: flex;
+    width: max-content;
+    will-change: transform;
+}
+
+/* Top/bottom rows scroll left, the inverted middle row scrolls right —
+   the same seamless -50% loop technique as .projects-marquee-track, just
+   run in both directions for the banded effect in the reference. */
+.education-marquee-row.row-a .education-marquee-track{
+    animation: projects-marquee 20s linear infinite;
+}
+
+.education-marquee-row.row-b .education-marquee-track{
+    animation: education-marquee-reverse 20s linear infinite;
+}
+
+@keyframes education-marquee-reverse{
+    from{ transform: translateX(-50%); }
+    to{ transform: translateX(0); }
+}
+
+.education-marquee-track span{
+    font-family: "poppins";
+    font-weight: 800;
+    font-size: 4vw;
+    line-height: 1.6;
+    color: white;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-right: 2vw;
+}
+
+.education-list{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 4vw;
+    min-height: 0;
+}
+
+.education-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2vw;
+    padding: 1.4vw 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.education-item:last-child{
+    border-bottom: none;
+}
+
+.education-item-left{
+    display: flex;
+    flex-direction: column;
+    gap: 0.3vw;
+}
+
+.education-date{
+    color: #ff2d6b;
+    font-family: "Montserrat";
+    font-weight: 600;
+    font-size: 1vw;
+}
+
+.education-item-left h3{
+    font-family: "Montserrat";
+    font-weight: 600;
+    font-size: 1.3vw;
+    color: white;
+    margin: 0;
+}
+
+.education-location{
+    font-family: "poppins";
+    font-weight: 400;
+    font-size: 1vw;
+    color: #A0A0A0;
+}
+
+.education-item-right{
+    font-family: "poppins";
+    font-size: 1.2vw;
+    color: white;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.education-item-right span{
+    display: block;
+    color: #A0A0A0;
+    font-size: 1vw;
+    margin-top: 0.3vw;
 }
 
 .skills{
@@ -656,116 +1135,236 @@ button{
 }
 
 .contact{
-    height: 100vh;
-    width: 100vw;   
-    background-color: #010409;
+    min-height: 100vh;
+    width: 100vw;
+    background-color: #000;
     font-family: "poppins";
     display: flex;
-}
-
-.contact h1{
-    color: white;
-    font-size: 6vw;
-    padding: 4vw 7vw;
-    font-weight: 400;
-    margin-top: 2vw;
-}
-
-.contact img{
-    width: 3vw;
-    margin: -3vw 6vw;
-}
-
-.contact-info{
-    width: 45%;
-}
-
-
-.footer{
-    display: flex;
-    padding: 0.5vw 16vw;
-    gap: 8vw;
-
-}
-
-.footer h3{
-    font-weight: 500;
-    margin-bottom: 1vw;
-    text-transform: uppercase;
-    font-family: "Montserrat";
-}
-
-.footer a{
-    font-size: 1vw;
-    text-decoration: none;
-}
-
-.footer ul li{
-    text-decoration: none;
-    color: #A0A0A0;
-    text-transform: uppercase;
-    list-style-type: none;
-}
-
-.email i{
-    color: #A0A0A0;
-}
-
-.email {
-    font-size: 1.2vw;
-    display: flex;
-    gap: 1vw;
     align-items: center;
-    color: #338cea;
-    padding: 5vw 16vw;
-    /* text-transform: lowercase; */
+    justify-content: center;
+    overflow: hidden;
+    padding: 6vw 7vw;
 }
 
-.btn{
-    font-size: 1.2vw;
-    font-weight: 600;
+.contact-inner{
+    width: 100%;
+    max-width: 90vw;
+}
+
+.contact-heading{
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-heading-line{
     font-family: "Montserrat";
-    background-color: #A0A0A0;
-    color: black;
-    display: block;
-    padding: 0.5vw 1vw;
-    margin-top: -3vw;
-    margin-left: 16vw;
-    border-radius: 0.3vw;
-
+    font-weight: 800;
+    font-size: clamp(2.6rem, 8.5vw, 7vw);
+    line-height: 0.95;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    margin: 0;
 }
 
-.form{
-    width: 40%;
-    padding: 8vw 3vw;
-    margin-left: 12vw;
-
+.contact-heading-white{
+    color: #fff;
 }
 
-.form input, form textarea{
-    width: 90%;
-    border: 0;
-    outline: #A0A0A0;
-    background-color: #262626;
-    padding: 1vw;
-    margin: 1vw 0vw;
-    color: white;
-    font-size: 1.2vw;
-    border-radius: 0.5vw;
+.contact-heading-pink{
+    color: #ff2d6b;
+    font-style: italic;
+    align-self: flex-end;
+    margin-top: 1.5vw;
+}
+
+.contact-message{
     font-family: "poppins";
+    color: #e6e6e6;
+    font-size: 1.05vw;
+    max-width: 44vw;
+    margin: 5vw auto 0;
+    text-align: center;
+    line-height: 1.7;
 }
 
-#send{
-    width: 25%;
-    font-size: 1.2vw;
-    font-weight: 600;
-    font-family: "Montserrat";
-    background-color: #A0A0A0;
-    color: black;
-    display: block;
-    padding: 0.5vw 0.5vw;
-    margin-top: 2vw;
-    border-radius: 0.3vw;
-    margin-left: 22vw;
-    cursor: pointer;
+.contact-message em{
+    font-style: italic;
+    color: #ff2d6b;
+}
+
+.contact-socials{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.8vw;
+    margin-top: 4vw;
+}
+
+.contact-social-btn{
+    width: 3.2vw;
+    height: 3.2vw;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.3vw;
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.contact-social-btn:hover{
+    background-color: #ff2d6b;
+    border-color: #ff2d6b;
+    transform: translateY(-4px);
+}
+
+.contact-email{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6vw;
+    margin-top: 2.5vw;
+    color: #A0A0A0;
+    font-size: 0.95vw;
+}
+
+.contact-email a{
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-email a:hover{
+    color: #ff2d6b;
+}
+
+@media (prefers-reduced-motion: reduce){
+    .contact-social-btn{
+        transition: none;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .contact{
+        padding: 16vw 7vw;
+    }
+
+    .contact-heading-line{
+        font-size: 13vw;
+    }
+
+    .contact-heading-pink{
+        margin-top: 2vw;
+    }
+
+    .contact-message{
+        font-size: 4vw;
+        max-width: 100%;
+        margin-top: 8vw;
+    }
+
+    .contact-socials{
+        gap: 5vw;
+        margin-top: 8vw;
+    }
+
+    .contact-social-btn{
+        width: 13vw;
+        height: 13vw;
+        font-size: 5.5vw;
+    }
+
+    .contact-email{
+        font-size: 3.6vw;
+        margin-top: 5vw;
+    }
+}
+@media screen and (max-width: 768px){
+    .logo-text{
+        font-size: 4.2vw;
+    }
+    .home-content{
+        padding-left: 6vw;
+    }
+
+    .home-dot{
+        margin-left: 2vw;
+        margin-bottom: 4vw;
+    }
+
+    .home-heading-line{
+        font-size: 15vw;
+        letter-spacing: -0.5px;
+    }
+
+    .home-heading-script{
+        font-size: 14vw;
+        margin-top: -5vw;
+        margin-left: 10vw;
+    }
+}
+
+/* ============================================================
+   CUSTOM CURSOR FOLLOWER
+   Lives outside [data-scroll-container] (a sibling of <nav>) so
+   Locomotive's transform on the scroll container never affects its
+   `position: fixed` behavior. Purely decorative: pointer-events
+   none, and hidden entirely on touch/coarse-pointer devices so it
+   never leaves a stray circle on mobile.
+   ============================================================ */
+
+.cursor-follower{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #fff;
+    mix-blend-mode: difference;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0;
+    will-change: transform;
+    transition:
+        width 0.3s ease,
+        height 0.3s ease,
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        opacity 0.25s ease;
+}
+
+.cursor-follower[data-state="text"],
+.cursor-follower[data-state="link"]{
+    /* Same size as default — per spec, only the image state grows.
+       Restated explicitly (rather than just relying on inheriting the
+       base rule) so it stays correct even if the base rule changes later. */
+    width: 14px;
+    height: 14px;
+    background-color: #fff;
+    border: none;
+    mix-blend-mode: difference;
+}
+
+.cursor-follower[data-state="image"]{
+    width: 34px;
+    height: 34px;
+    background-color: #ff2d6b;
+    border: none;
+    mix-blend-mode: normal;
+}
+
+@media (hover: none), (pointer: coarse){
+    .cursor-follower{
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .cursor-follower{
+        transition: opacity 0.25s ease;
+    }
 }
