@@ -5,17 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ravi.</title>
-    <!-- Applies the saved theme before first paint so there's no light/dark flash on load. -->
-    <script>
-        (function () {
-            try {
-                var savedTheme = localStorage.getItem('theme');
-                if (savedTheme === 'light') {
-                    document.documentElement.setAttribute('data-theme', 'light');
-                }
-            } catch (e) { /* localStorage unavailable — default (dark) theme is used */ }
-        })();
-    </script>
+    <meta name="description" content="Ravi Dhote - Full-Stack Developer portfolio">
+    <meta name="theme-color" content="#010409">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.css">
@@ -30,15 +24,12 @@
         <div class="nav-left">
             <span class="logo-text">ravi.portfolio</span>
         </div>
-<<<<<<< HEAD
-        <div class="nav-right"></div>
-    </nav>
-=======
         <div class="nav-right">
-            <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-                <i class="ri-moon-line theme-icon theme-icon-dark" aria-hidden="true"></i>
-                <i class="ri-sun-line theme-icon theme-icon-light" aria-hidden="true"></i>
-            </button>
+            <a href="#home" data-nav="home">Home</a>
+            <a href="#projects" data-nav="projects">Projects</a>
+            <a href="#experience" data-nav="experience">Experience</a>
+            <a href="#education" data-nav="education">Education</a>
+            <a href="#contact" data-nav="contact">Contact</a>
             <button type="button" class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation"
                 aria-expanded="false" aria-controls="mobileNav">
                 <span></span>
@@ -47,7 +38,7 @@
             </button>
         </div>
     </nav>
-    <div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
         <a href="#home" class="mobile-nav-link">Home</a>
         <a href="#projects" class="mobile-nav-link">Projects</a>
         <a href="#experience" class="mobile-nav-link">Experience</a>
@@ -55,7 +46,6 @@
         <a href="#contact" class="mobile-nav-link">Contact</a>
     </div>
     <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
     <!-- Same reasoning as nav above: the cursor follower is position:fixed and purely
          decorative (pointer-events: none), so it lives outside the transformed scroll
          container too. aria-hidden since it carries no information of its own. -->
@@ -72,11 +62,7 @@
         <div class="sticky_parent">
             <div class="sticky">
                 <div class="scroll_section">
-<<<<<<< HEAD
-                    <div class="projects">
-=======
                     <div class="projects" id="projects">
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
                         <div class="projects-marquee">
                             <div class="projects-marquee-track">
                                 <span>Projects</span>
@@ -88,46 +74,36 @@
                                 <span>Projects</span>
                                 <span>Projects</span>
                                 <span>Projects</span>
-<<<<<<< HEAD
                             </div>
                         </div>
                         <div class="projects-grid">
                             <div class="project-card">
                                 <span class="project-tag">featured</span>
-                                <h3 class="project-title">Fit-Frizz | Fitness Resource Platform</h3>
+                                <h3 class="project-title">EventSphere | Event Management Platform</h3>
                                 <div class="project-image">
-                                    <img src="assets/Screenshot (150).png" alt="Fit-Frizz project preview">
-=======
-                            </div>
-                        </div>
-                        <div class="projects-grid">
-                            <div class="project-card">
-                                <span class="project-tag">featured</span>
-                                <h3 class="project-title">Fit-Frizz | Fitness Resource Platform</h3>
-                                <div class="project-image">
-                                    <img src="assets/Screenshot (150).png" alt="Fit-Frizz project preview">
+                                    <img src="assets/eventSphere.jpeg" alt="EventSphere project preview" loading="lazy" decoding="async">
                                 </div>
 
                             </div>
                             <div class="project-card">
                                 <span class="project-tag">featured</span>
-                                <h3 class="project-title">Duo Studio Clone | Front-End Design Clone</h3>
+                                <h3 class="project-title">LearnMate AI | AI-Powered E-Learning Platform</h3>
                                 <div class="project-image">
-                                    <img src="assets/Screenshot (145).png" alt="Duo Studio Clone project preview">
+                                    <img src="assets/learnMate.jpeg" alt="LearnMate AI project preview" loading="lazy" decoding="async">
                                 </div>
 
                             </div>
                             <div class="project-card">
                                 <span class="project-tag">featured</span>
-                                <h3 class="project-title">Urban Aura | E-Commerce Website</h3>
+                                <h3 class="project-title">SmartExpense | Personal Finance Tracker</h3>
                                 <div class="project-image">
-                                    <img src="assets/Screenshot (155).png" alt="Urban Aura project preview">
+                                    <img src="assets/smartExpense.jpeg" alt="SmartExpense project preview" loading="lazy" decoding="async">
                                 </div>
 
                             </div>
                         </div>
                         <div class="more-project">
-                            <h4><a href="https://www.google.com">See More of My Builds</a></h4>
+                            <!-- <h4><a href="https://github.com/Ravidhote17" target="_blank" rel="noopener noreferrer">See More of My Builds</a></h4> -->
                         </div>
                     </div>
                     <div class="experience" id="experience">
@@ -170,7 +146,7 @@
                                         </div>
                                         <div class="work-item-right">Assistant System Engineer</div>
                                     </div>
-                                    <div class="work-item">
+                                    <div class="work-item work-item-empty" aria-hidden="true">
                                         <div class="work-item-left">
                                             <span class="work-date">__</span>
                                             <h3>___</h3>
@@ -178,7 +154,7 @@
                                         </div>
                                         <div class="work-item-right"></div>
                                     </div>
-                                    <div class="work-item">
+                                    <div class="work-item work-item-empty" aria-hidden="true">
                                         <div class="work-item-left">
                                             <span class="work-date">__</span>
                                             <h3>___</h3>
@@ -186,7 +162,7 @@
                                         </div>
                                         <div class="work-item-right"></div>
                                     </div>
-                                    <div class="work-item">
+                                    <div class="work-item work-item-empty" aria-hidden="true">
                                         <div class="work-item-left">
                                             <span class="work-date">__</span>
                                             <h3>___</h3>
@@ -194,121 +170,7 @@
                                         </div>
                                         <div class="work-item-right"></div>
                                     </div>
-                                    <div class="work-item">
-                                        <div class="work-item-left">
-                                            <span class="work-date">__</span>
-                                            <h3>___</h3>
-                                            <span class="work-location">_</span>
-                                        </div>
-                                        <div class="work-item-right"></div>
-                                    </div>
-                                </div>
-                                <div class="experience-marquee">
-                                    <div class="experience-marquee-track">
-                                        <span>Experience</span>
-                                        <span>Experience</span>
-                                        <span>Experience</span>
-                                        <span>Experience</span>
-                                        <!-- duplicate set — required for the seamless -50% loop, not extra content -->
-                                        <span>Experience</span>
-                                        <span>Experience</span>
-                                        <span>Experience</span>
-                                        <span>Experience</span>
-                                    </div>
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
-                                </div>
-
-                            </div>
-                            <div class="project-card">
-                                <span class="project-tag">featured</span>
-                                <h3 class="project-title">Duo Studio Clone | Front-End Design Clone</h3>
-                                <div class="project-image">
-                                    <img src="assets/Screenshot (145).png" alt="Duo Studio Clone project preview">
-                                </div>
-
-                            </div>
-                            <div class="project-card">
-                                <span class="project-tag">featured</span>
-                                <h3 class="project-title">Urban Aura | E-Commerce Website</h3>
-                                <div class="project-image">
-                                    <img src="assets/Screenshot (155).png" alt="Urban Aura project preview">
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="more-project">
-                            <h4><a href="https://www.google.com">See More of My Builds</a></h4>
-                        </div>
-
-                    </div>
-<<<<<<< HEAD
-                    <div class="experience">
-                        <div class="experience-columns">
-                            <div class="experience-info">
-                                <h1 class="experience-heading">Currently Based <em>in</em><br><span
-                                        class="experience-location">Indore, India</span></h1>
-                                <p class="experience-blurb">
-                                    I'm exploring how <em class="accent">competitive coding</em>, problem-solving, and
-                                    thoughtful <em class="accent">web design</em> can come together to create engaging
-                                    digital experiences. As a <em class="accent">Full-Stack Developer</em>, I enjoy
-                                    building clean, scalable applications using ReactJS, NodeJS, ExpressJS, and MongoDB,
-                                    backed by a strong foundation in <em class="accent">Data Structures and
-                                        Algorithms</em>.
-
-                                    When I'm away from the code, you'll usually find me following <em
-                                        class="accent">cricket</em>, working on fitness, or exploring <em
-                                        class="accent">Geopolitics</em>. Always learning, always building, and always
-                                    curious about what's next.
-                                </p>
-                            </div>
-                            <div class="experience-work">
-
-                                <h2 class="experience-work-label">work</h2>
-
-                                <div class="work-list">
-
-
-                                    <div class="work-item">
-                                        <div class="work-item-left">
-                                            <span class="work-date">Dec 2024 - April 2025</span>
-                                            <h3>Tata Consultancy Services</h3>
-                                            <span class="work-location">Chennai, India</span>
-                                        </div>
-                                        <div class="work-item-right">Graduate Trainee</div>
-                                    </div>
-                                    <div class="work-item">
-                                        <div class="work-item-left">
-                                            <span class="work-date">May 2025 - May 2027</span>
-                                            <h3>Tata Consultancy Services</h3>
-                                            <span class="work-location">Kolkata, India</span>
-                                        </div>
-                                        <div class="work-item-right">Assistant System Engineer</div>
-                                    </div>
-                                    <div class="work-item">
-                                        <div class="work-item-left">
-                                            <span class="work-date">April 2028 - May 2028</span>
-                                            <h3>Microsoft</h3>
-                                            <span class="work-location">Bengluru, India</span>
-                                        </div>
-                                        <div class="work-item-right">Product Manager Intern</div>
-                                    </div>
-                                    <div class="work-item">
-                                        <div class="work-item-left">
-                                            <span class="work-date">__</span>
-                                            <h3>___</h3>
-                                            <span class="work-location">_</span>
-                                        </div>
-                                        <div class="work-item-right"></div>
-                                    </div>
-                                    <div class="work-item">
-                                        <div class="work-item-left">
-                                            <span class="work-date">__</span>
-                                            <h3>___</h3>
-                                            <span class="work-location">_</span>
-                                        </div>
-                                        <div class="work-item-right"></div>
-                                    </div>
-                                    <div class="work-item">
+                                    <div class="work-item work-item-empty" aria-hidden="true">
                                         <div class="work-item-left">
                                             <span class="work-date">__</span>
                                             <h3>___</h3>
@@ -334,24 +196,11 @@
                         </div>
 
                     </div>
-                    <div class="education">
-                        <div class="education-body">
-                            <div class="education-tags">
-                                <div class="tag-sphere-wrap" id="tagSphereWrap">
-                                    <div class="tag-sphere" id="tagSphere"
-                                        aria-label="Technologies: Python, React, jQuery, Java, MySQL, Sass, Express, CSS, HTML, Mongoose, MongoDB, NodeJS, React JS, JavaScript, Swift">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="education-right">
-                                <div class="education-marquee">
-=======
                     <div class="education" id="education">
                         <div class="education-body">
                             <div class="education-tags">
                                 <div class="tag-sphere-wrap" id="tagSphereWrap">
-                                    <div class="tag-sphere" id="tagSphere"
-                                        aria-label="Technologies: Python, React, jQuery, Java, MySQL, Sass, Express, CSS, HTML, Mongoose, MongoDB, NodeJS, React JS, JavaScript, Swift">
+                                    <div class="tag-sphere" id="tagSphere" role="img">
                                     </div>
                                 </div>
                             </div>
@@ -382,23 +231,16 @@
                                             <span>Education</span>
                                         </div>
                                     </div>
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
                                     <div class="education-marquee-row row-a">
                                         <div class="education-marquee-track">
                                             <span>Education</span>
                                             <span>Education</span>
                                             <span>Education</span>
                                             <span>Education</span>
-<<<<<<< HEAD
-                                            <!-- duplicate set — required for the seamless -50% loop, not extra content -->
-=======
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
                                             <span>Education</span>
                                             <span>Education</span>
                                             <span>Education</span>
                                             <span>Education</span>
-<<<<<<< HEAD
-=======
                                         </div>
                                     </div>
                                 </div>
@@ -431,66 +273,8 @@
                                         </div>
                                         <div class="education-item-right">
                                             High School <span>9.6 CGPA</span>
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
                                         </div>
                                     </div>
-                                    <div class="education-marquee-row row-b">
-                                        <div class="education-marquee-track">
-                                            <span>Education</span>
-                                            <span>Education</span>
-                                            <span>Education</span>
-                                            <span>Education</span>
-                                            <span>Education</span>
-                                            <span>Education</span>
-                                            <span>Education</span>
-                                            <span>Education</span>
-                                        </div>
-                                    </div>
-                                    <div class="education-marquee-row row-a">
-                                        <div class="education-marquee-track">
-                                            <span>Education</span>
-                                            <span>Education</span>
-                                            <span>Education</span>
-                                            <span>Education</span>
-                                            <span>Education</span>
-                                            <span>Education</span>
-                                            <span>Education</span>
-                                            <span>Education</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="education-list">
-                                    <div class="education-item">
-                                        <div class="education-item-left">
-                                            <span class="education-date">2027 - 2029</span>
-                                            <h3>Faculty of Management Studies</h3>
-                                            <span class="education-location">Delhi, India</span>
-                                        </div>
-                                        <div class="education-item-right">
-                                            Master of Business Administration <span>7.6 CGPA</span>
-                                        </div>
-                                    </div>
-                                    <div class="education-item">
-                                        <div class="education-item-left">
-                                            <span class="education-date">2021 - 2024</span>
-                                            <h3>Shri Vaishnav Vidyapeeth Vishwavidyalaya</h3>
-                                            <span class="education-location">Indore, India</span>
-                                        </div>
-                                        <div class="education-item-right">
-                                            Bachelor's of Computer Application <span>8.05 CGPA</span>
-                                        </div>
-                                    </div>
-                                    <div class="education-item">
-                                        <div class="education-item-left">
-                                            <span class="education-date">2017 - 2021</span>
-                                            <h3>Ramakrishna Mission Vidyapeeth</h3>
-                                            <span class="education-location">Indore, India</span>
-                                        </div>
-                                        <div class="education-item-right">
-                                            Higher School (X & XII) <span>9.5 CGPA</span>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
@@ -505,14 +289,8 @@
                     <h2 class="contact-heading-line contact-heading-pink">Together</h2>
                 </div>
                 <p class="contact-message">
-<<<<<<< HEAD
-                    Have a <em>project idea</em>, an interesting <em>problem</em> to solve, or just curious about what I
-                    build? Don't <em>hesitate</em> to get in touch — I'm always up for a good <em>conversation</em> or
-                    exploring something new.
-=======
                     Have a <em>project idea</em>, an interesting <em>problem</em> to solve, or just curious about what I build? Don't <em>hesitate</em> to get in touch — I'm always up for a good <em>conversation</em> or exploring something new.
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
-gi                </p>
+                </p>
                 <div class="contact-socials">
                     <a class="contact-social-btn" href="https://github.com/Ravidhote17" target="_blank"
                         rel="noopener noreferrer" aria-label="GitHub">
@@ -542,11 +320,10 @@ gi                </p>
 
     <!-- Self-contained: has no dependency on GSAP/ScrollTrigger/Locomotive, so it
          always runs even if those CDN scripts fail to load. -->
-    <script src="tag-sphere.js"></script>
-    <script src="cursor.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
-        integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="tag-sphere.js" defer></script>
+    <script src="cursor.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
         integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>

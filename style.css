@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
-@import url('https://fonts.cdnfonts.com/css/brittany-signature');
-@import url('https://fonts.gstatic.com');
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+/* ============================================================
+   Fonts are loaded from index.html (<link> tags).
+   Single, fixed dark theme. Desktop (> 1024px) keeps the original
+   horizontal-pin layout; everything at or below 1024px is handled
+   by ONE consolidated block at the bottom of this file.
+   ============================================================ */
 
 *{
     margin: 0;
@@ -11,67 +11,53 @@
     box-sizing: border-box;
 }
 
-/* ============================================================
-   THEME VARIABLES
-   Default values below match the site's original (dark) colors
-   exactly, so nothing changes visually until the toggle is used.
-   [data-theme="light"] supplies the alternate palette. Only the
-   sections that were already solid dark backgrounds (nav, hero,
-   experience info column, education, contact/footer) key off
-   these — the white project cards / work-list panel were already
-   light and are intentionally left as-is in both themes.
-   ============================================================ */
 :root{
     --page-bg: #010409;
     --page-text: #ffffff;
-    --nav-text: #ffffff;
     --muted-text: #A0A0A0;
     --border-soft: rgba(255, 255, 255, 0.15);
     --accent: #ff2d6b;
+    --nav-h: 60px;
 }
 
-[data-theme="light"]{
-    --page-bg: #f4f5f7;
-    --page-text: #0d1117;
-    --nav-text: #0d1117;
-    --muted-text: #55606e;
-    --border-soft: rgba(13, 17, 23, 0.12);
-}
-
-html, body{
-    /* height: 100vh removed — Locomotive Scroll sets overflow:hidden on <html> while it's
-       active, so a fixed 100vh height here would clip the entire page to one screen. */
-    width: 100vw;
-    font-family: sans-serif;
-    background-color: var(--page-bg);
-    transition: background-color 0.35s ease;
-    /* Safeguard only — the actual overflow sources (the horizontal pin
-       track, marquees, etc.) are fixed at their origin above/below. */
+html{
+    /* Locomotive Scroll sets overflow:hidden on <html> while it is active, so no fixed
+       height here. overflow-x is only a safeguard - real overflow sources are fixed at origin. */
     overflow-x: hidden;
 }
 
-.main{
-    /* height: 100vh -> min-height: 100vh — the data-scroll-container needs to be able to
-       grow to its full content height for Locomotive to measure the real scroll distance. */
-    min-height: 100vh;
-    width: 100vw;
+body{
+    width: 100%;
+    font-family: sans-serif;
     background-color: var(--page-bg);
-    transition: background-color 0.35s ease;
-    /* overflow: hidden; */
+    overflow-x: clip;
+}
+
+body.nav-open{
+    overflow: hidden;
+}
+
+.main{
+    min-height: 100vh;
+    width: 100%;
+    background-color: var(--page-bg);
+}
+
+/* ---------- HERO ---------- */
+
+#home{
+    background-color: #010409;
 }
 
 .home-content{
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items:center;
+    align-items: center;
     justify-content: center;
     padding-bottom: 8vw;
-    /* background-color: #010409;  */
-    /* overflow: hidden; */
 }
-
 
 .home-heading{
     margin: 0;
@@ -81,30 +67,13 @@ html, body{
 }
 
 .home-heading-line{
-<<<<<<< HEAD
-=======
-    /* Intentionally NOT theme-linked: the hero keeps its own fixed dark
-       backdrop (see #home below) in both themes, so this stays white. */
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
     color: white;
     font-family: "Montserrat", sans-serif;
-    font-size: 130px;
+    font-size: min(130px, 12vw);
     font-weight: 700;
     letter-spacing: -5px;
     margin-right: 8vw;
 }
-
-<<<<<<< HEAD
-=======
-#home{
-    /* Fixed dark backdrop, independent of the theme toggle, so the hero
-       (and the nav sitting directly above it) always reads correctly
-       against the white heading text — identical to the original
-       always-dark design regardless of which theme is active. */
-    background-color: #010409;
-}
-
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
 
 .home-heading-script{
     font-family: "Great Vibes", cursive;
@@ -116,116 +85,73 @@ html, body{
     margin-left: 15vw;
 }
 
+/* ---------- NAV ---------- */
+
 nav{
-    height: 4vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     width: 100%;
+    min-height: 4vw;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 2vw 5vw;
-    position: static;
-<<<<<<< HEAD
-    /* background-color: red; */
-=======
-    /* Fixed dark backdrop (same color the scroll-triggered GSAP animation
-       later transitions to) rather than transparent, so nav text stays
-       readable at the very top of the page regardless of theme — visually
-       identical to the original since the hero directly beneath it was
-       already this same dark color. */
     background-color: #010409;
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
     color: white;
-    z-index: 99;
+    z-index: 101; /* above the mobile drawer (100) so the hamburger stays clickable */
 }
 
 .nav-left{
-    /* margin-left: 1vw; */
-    font-family: "poppins";
+    font-family: "Poppins", sans-serif;
     display: flex;
     gap: 1vw;
 }
 
 .logo-text{
-<<<<<<< HEAD
-=======
-    /* Not theme-linked, to match nav's fixed dark backdrop below. */
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
     color: white;
-    font-family: "poppins";
+    font-family: "Poppins", sans-serif;
     font-size: 1.4vw;
     font-weight: 600;
     letter-spacing: 0.5px;
     text-transform: lowercase;
-    margin-top: 1vw;
-}
-
-.nav-left h3{
-    font-size: 1.3vw;
-    font-weight: 400;
-    letter-spacing: 2px;
-    align-items: center;
-    margin-top: -0.3vw;
-}
-
-.nav-left img{
-    height: 1.5vw;
-    /* object-fit: cover; */
 }
 
 .nav-right{
-    font-family: "poppins";
+    font-family: "Poppins", sans-serif;
     text-transform: uppercase;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 1.2vw;
-    z-index: 2;
+    gap: 1.8vw;
 }
 
-/* ============================================================
-   THEME TOGGLE + HAMBURGER (mobile nav)
-   ============================================================ */
-
-.theme-toggle{
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background-color: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.35);
+.nav-right a{
+    font-size: 1.05vw;
+    text-decoration: none;
     color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
-    flex-shrink: 0;
+    font-weight: 400;
+    letter-spacing: 1px;
+    opacity: 0.6;
+    padding-bottom: 2px;
+    border-bottom: 2px solid transparent;
+    transition: opacity 0.25s ease, border-color 0.25s ease;
 }
 
-.theme-toggle:hover{
-    background-color: rgba(255, 255, 255, 0.08);
+.nav-right a:hover,
+.nav-right a.is-active{
+    opacity: 1;
 }
 
-.theme-toggle .theme-icon{
-    font-size: 16px;
-    line-height: 1;
-}
-
-.theme-icon-light{
-    display: none;
-}
-
-[data-theme="light"] .theme-icon-dark{
-    display: none;
-}
-
-[data-theme="light"] .theme-icon-light{
-    display: inline-block;
+.nav-right a.is-active{
+    border-bottom-color: white;
 }
 
 .hamburger{
     display: none;
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
     border: none;
     background: transparent;
     cursor: pointer;
@@ -258,156 +184,42 @@ nav{
     transform: translateY(-7px) rotate(-45deg);
 }
 
-.mobile-nav{
-    display: none;
-}
-
+.mobile-nav,
 .mobile-nav-backdrop{
     display: none;
 }
 
-@media screen and (max-width: 768px){
-    .hamburger{
-        display: flex;
-    }
-
-    .mobile-nav{
-        display: flex;
-        flex-direction: column;
-        gap: 6vw;
-        position: fixed;
-        top: 0;
-        right: 0;
-        height: 100vh;
-        width: min(75vw, 320px);
-        background-color: #0d1117;
-        padding: 22vw 8vw 8vw;
-        transform: translateX(100%);
-        transition: transform 0.35s ease;
-        z-index: 100;
-        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.35);
-    }
-
-    .mobile-nav.is-open{
-        transform: translateX(0);
-    }
-
-    .mobile-nav-link{
-        color: white;
-        font-family: "poppins";
-        font-size: 5vw;
-        font-weight: 500;
-        text-decoration: none;
-        letter-spacing: 0.5px;
-        opacity: 0.85;
-        transition: opacity 0.2s ease, color 0.2s ease;
-    }
-
-    .mobile-nav-link:hover,
-    .mobile-nav-link:active{
-        opacity: 1;
-        color: #ff2d6b;
-    }
-
-    .mobile-nav-backdrop{
-        display: block;
-        position: fixed;
-        inset: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.35s ease;
-        z-index: 97;
-    }
-
-    .mobile-nav-backdrop.is-open{
-        opacity: 1;
-        pointer-events: auto;
-    }
-
-    .theme-toggle{
-        width: 9vw;
-        height: 9vw;
-        min-width: 32px;
-        min-height: 32px;
-        max-width: 40px;
-        max-height: 40px;
-    }
-
-    .theme-toggle .theme-icon{
-        font-size: 4.2vw;
-        max-font-size: 18px;
-    }
-}
-
-.nav-right a{
-    font-size: 1.2vw;
-    text-decoration: none;
-    color: white;
-    font-weight: 400;
-    letter-spacing: 1px;
-    opacity: 0.6;
-}
-
-.nav-right a:nth-child(1){
-    border-bottom: 2px solid white;
-    opacity: 1;
-}
-
-
-.i{
-    font-size: 1.5vw;
-    color: white;
-    padding: 2vw 48.5vw;
-}
-
-
-section{
-    height: 100vh;
-}
+/* ---------- HORIZONTAL PIN TRACK (desktop) ---------- */
 
 .sticky_parent{
-    /* 3 panels again (projects, experience, education) — back to the
-       original 350vh / 300vw / *200 scroll math. */
+    /* 3 panels (projects, experience, education): 350vh tall, 300vw track, translated 0 -> -200vw */
     height: 350vh;
-    /* width: 100vh; */
     z-index: 1;
-    /* color: white; */
 }
 
 .sticky{
     overflow: hidden;
-    /* position: sticky -> relative: native `position: sticky` stops working once an
-       ancestor gets a CSS transform, which is exactly how Locomotive Scroll drives
-       smooth scrolling. GSAP ScrollTrigger now pins this element instead (same visual
-       result — held in place for the duration of .sticky_parent's height). */
+    /* position: relative (not sticky): sticky breaks inside Locomotive's transformed container.
+       GSAP ScrollTrigger pins this element instead. */
     position: relative;
     top: 0;
     height: 100vh;
-    /* border: 2px solid red; */
 }
 
 .scroll_section{
     position: absolute;
     top: 0;
     height: 100%;
-    /* 3 panels again: projects, experience, education */
     width: 300vw;
     will-change: transform;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* padding: 0 0vw; */
 }
 
+/* ---------- PROJECTS ---------- */
+
 .projects{
-    /* Replaces the old .about panel in this horizontal-scroll slot.
-       width:100vw + flex-shrink:0 makes this panel exactly one viewport
-       wide inside .scroll_section's flex row — the old .about had
-       width:50%, which (per flexbox's shrink math on a 300vw row) was
-       actually rendering at ~60vw, not the intended 100vw. Pinning this
-       panel to a hard 100vw also corrects that shared shrink distortion
-       for its sibling, so .experience now lands on exactly 100vw too. */
     height: 100%;
     width: 100vw;
     flex-shrink: 0;
@@ -432,16 +244,13 @@ section{
 .projects-marquee-track{
     display: flex;
     width: max-content;
-    /* Two identical copies of the word list, translated by exactly -50%:
-       the point where copy 2 lines up perfectly with where copy 1 started,
-       so the loop has no visible seam or jump. */
-    animation: projects-marquee 18s linear infinite;
+    /* Two identical copies of the word list translated by exactly -50% = seamless loop. */
+    animation: marquee-left 18s linear infinite;
     will-change: transform;
-    /* color: white; */
 }
 
 .projects-marquee-track span{
-    font-family: "poppins";
+    font-family: "Poppins", sans-serif;
     font-weight: 800;
     font-size: 7vw;
     line-height: 1;
@@ -451,9 +260,14 @@ section{
     padding-right: 3vw;
 }
 
-@keyframes projects-marquee{
+@keyframes marquee-left{
     from{ transform: translateX(0); }
     to{ transform: translateX(-50%); }
+}
+
+@keyframes marquee-right{
+    from{ transform: translateX(-50%); }
+    to{ transform: translateX(0); }
 }
 
 .projects-grid{
@@ -473,9 +287,9 @@ section{
     min-height: 0;
 }
 
-.project-card .project-tag{
+.project-tag{
     color: #ff2d6b;
-    font-family: "Montserrat";
+    font-family: "Montserrat", sans-serif;
     font-weight: 600;
     font-size: 1vw;
     text-transform: lowercase;
@@ -483,15 +297,15 @@ section{
     margin-bottom: 0.6vw;
 }
 
-.project-card .project-title{
-    font-family: "poppins";
+.project-title{
+    font-family: "Poppins", sans-serif;
     font-size: 1vw;
     font-weight: 500;
     color: black;
     margin-bottom: 1.2vw;
 }
 
-.project-card .project-image{
+.project-image{
     width: 100%;
     height: 42vh;
     overflow: hidden;
@@ -500,7 +314,7 @@ section{
     background-color: #0d1117;
 }
 
-.project-card .project-image img{
+.project-image img{
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -513,24 +327,7 @@ section{
     opacity: 0.85;
 }
 
-.project-card .project-links{
-    margin-top: 1vw;
-    display: flex;
-    gap: 1vw;
-}
-
-.project-card .project-links a{
-    color: #A0A0A0;
-    font-size: 1.1vw;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.project-card .project-links a:hover{
-    color: #338cea;
-}
-
-.more-project {
+.more-project{
     padding-left: 43vw;
     padding-bottom: 5vw;
 }
@@ -538,130 +335,21 @@ section{
 .more-project a{
     color: #222;
     font-weight: 400;
-    font: "poppins";
+    font-family: "Poppins", sans-serif;
     cursor: pointer;
 }
 
-@media screen and (max-width: 768px){
-<<<<<<< HEAD
-=======
-    .more-project{
-        padding: 0 6vw 8vw;
-    }
-
-    .more-project h4{
-        width: 100%;
-    }
-
-    .more-project a{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        padding: 4.2vw 5vw;
-        background-color: #0d1117;
-        color: #fff;
-        border-radius: 3vw;
-        font-size: 4vw;
-        font-weight: 500;
-        text-decoration: none;
-        text-align: center;
-    }
-}
-
-@media screen and (max-width: 768px){
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
-    .projects-marquee-track span{
-        font-size: 14vw;
-        padding-right: 6vw;
-    }
-
-    .experience-marquee-track span{
-        font-size: 14vw;
-        padding-right: 6vw;
-    }
-
-    .education-marquee-track span{
-        font-size: 9vw;
-        line-height: 1.4;
-        padding-right: 4vw;
-    }
-
-    .education-item{
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5vh;
-        padding: 3vw 0;
-    }
-
-    .education-date,
-    .education-location,
-    .education-item-right{
-        font-size: 3.2vw;
-    }
-
-    .education-item-left h3{
-        font-size: 4.2vw;
-    }
-
-    .education-item-right{
-        text-align: left;
-    }
-
-    .education-item-right span{
-        font-size: 3.2vw;
-    }
-
-    .projects-grid{
-        flex-direction: column;
-        overflow-y: auto;
-        gap: 5vh;
-        padding: 0 6vw;
-    }
-
-    .project-card{
-        width: 100%;
-    }
-
-    .project-card .project-tag{
-        font-size: 3vw;
-    }
-
-    .project-card .project-title{
-        font-size: 4vw;
-    }
-
-    .project-card .project-image{
-        height: 22vh;
-    }
-
-    .project-card .project-links a{
-        font-size: 4vw;
-    }
-}
+/* ---------- EXPERIENCE ---------- */
 
 .experience{
-    /* Now occupies the panel Education used to occupy: same 100vw slot in
-       .scroll_section, filling the full pinned viewport height so the
-       marquee below can sit flush against the bottom of the section. */
     height: 100%;
     width: 100vw;
     flex-shrink: 0;
-<<<<<<< HEAD
-    background-color: #010409;
-    color: white;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-=======
     background-color: var(--page-bg);
     color: var(--page-text);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: background-color 0.35s ease, color 0.35s ease;
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
-    /* padding-top: 3vh; */
 }
 
 .experience-columns{
@@ -682,47 +370,30 @@ section{
 }
 
 .experience-heading{
-    font-family: "Montserrat";
+    font-family: "Montserrat", sans-serif;
     font-weight: 700;
     font-size: 4.7vw;
     line-height: 1.2;
-<<<<<<< HEAD
-    color: white;
-=======
     color: var(--page-text);
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
     text-transform: capitalize;
-    margin: 0 0 2vh 0;
-    margin-top: 8vw;
+    margin: 8vw 0 2vh 0;
 }
 
 .experience-heading em{
     font-style: italic;
     font-weight: 400;
-<<<<<<< HEAD
-    color: #fff;
-}
-
-.experience-location{
-    color: #ff2d6b;
-=======
     color: var(--page-text);
 }
 
 .experience-location{
     color: var(--accent);
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
 }
 
 .experience-blurb{
-    font-family: "poppins";
+    font-family: "Poppins", sans-serif;
     font-size: 1.1vw;
     line-height: 1.7;
-<<<<<<< HEAD
-    color: #fff;
-=======
     color: var(--page-text);
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
     max-width: 100%;
     text-align: justify;
     margin-bottom: 3vw;
@@ -739,14 +410,12 @@ section{
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    padding: 0;
     min-height: 0;
     background-color: #fff;
 }
 
-
 .experience-work-label{
-    font-family: "Montserrat";
+    font-family: "Montserrat", sans-serif;
     font-weight: 700;
     font-size: 2vw;
     color: #ff2d6b;
@@ -759,8 +428,6 @@ section{
     padding: 1.4vw 2.5vw;
 }
 
-
-
 .work-list{
     flex: 1;
     display: flex;
@@ -769,7 +436,6 @@ section{
     min-height: 0;
     background-color: #fff;
     color: black;
-    /* padding: 0vh 1vw; */
 }
 
 .work-item{
@@ -778,9 +444,8 @@ section{
     align-items: center;
     gap: 2vw;
     padding: 1vw 2.5vw;
-    border-bottom: 1px solid rgb(0, 0, 0);
+    border-bottom: 1px solid #000;
     color: black;
-    transition: background-color 0.25s ease;
     width: 100%;
 }
 
@@ -788,154 +453,77 @@ section{
     border-bottom: none;
 }
 
-
-
 .work-item-left{
     display: flex;
     flex-direction: column;
     gap: 0.3vw;
-    
 }
 
 .work-date{
     color: #ff2d6b;
-    font-family: "Montserrat";
+    font-family: "Montserrat", sans-serif;
     font-weight: 400;
     font-size: 1vw;
 }
 
 .work-item-left h3{
-    font-family: "Montserrat";
+    font-family: "Montserrat", sans-serif;
     font-weight: 600;
     font-size: 1.2vw;
     margin: 0;
 }
 
 .work-location{
-    font-family: "poppins";
+    font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-size: 0.8vw;
     color: #222;
 }
 
 .work-item-right{
-    font-family: "poppins";
+    font-family: "Poppins", sans-serif;
     font-size: 1.1vw;
     text-align: right;
     flex-shrink: 0;
     font-weight: 400;
 }
 
-.work-item-soon .work-item-left h3{
-    font-weight: 400;
-    font-style: italic;
-}
-
-@media screen and (max-width: 768px){
-    .experience-columns{
-        flex-direction: column;
-    }
-
-    .experience-info,
-    .experience-work{
-        width: 100%;
-    }
-
-    .experience-info{
-        padding: 3vh 5vw;
-    }
-
-    .experience-heading{
-        font-size: 8vw;
-    }
-
-    .experience-blurb{
-        font-size: 4vw;
-        max-width: 100%;
-        text-align: left;
-    }
-
-    .experience-work-label{
-        font-size: 5vw;
-        padding: 4vw 5vw;
-    }
-
-    .work-list{
-        padding: 1vh 5vw;
-    }
-
-    .work-date,
-    .work-location,
-    .work-item-right{
-        font-size: 3.2vw;
-    }
-
-    .work-item-left h3{
-        font-size: 4.2vw;
-    }
-
-    .work-item{
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5vh;
-    }
-
-    .work-item-right{
-        text-align: left;
-    }
-}
-
 .experience-marquee{
     width: 100%;
     overflow: hidden;
-    border-top: 1px solid rgb(0, 0, 0);
-    /* padding-top: 1.5vh; */
-    /* pushes the marquee to the bottom of the flex column, however much
-       (or little) timeline content sits above it */
+    border-top: 1px solid #000;
     margin-top: auto;
     flex-shrink: 0;
-
 }
 
 .experience-marquee-track{
     display: flex;
     width: max-content;
-    /* Same seamless -50% loop technique as .projects-marquee-track. */
-    animation: projects-marquee 18s linear infinite;
+    animation: marquee-left 18s linear infinite;
     will-change: transform;
     background-color: white;
 }
 
 .experience-marquee-track span{
-    font-family: 'montserrat';
+    font-family: "Montserrat", sans-serif;
     font-weight: 600;
     font-size: 5vw;
-    /* line-height: 1; */
     color: black;
-    /* text-transform: uppercase; */
     white-space: nowrap;
     padding-right: 3vw;
 }
 
+/* ---------- EDUCATION ---------- */
+
 .education{
-    /* New third panel in .scroll_section, added after .experience. */
     height: 100%;
     width: 100vw;
     flex-shrink: 0;
-<<<<<<< HEAD
-    background-color: #010409;
-    color: white;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-=======
     background-color: var(--page-bg);
     color: var(--page-text);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: background-color 0.35s ease, color 0.35s ease;
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
 }
 
 .education-body{
@@ -964,25 +552,20 @@ section{
     min-height: 0;
 }
 
-/* ============================================================
-   3D TAG SPHERE
-   ============================================================ */
+/* 3D tag sphere - positions are computed in tag-sphere.js (manual projection) */
 
 .tag-sphere-wrap{
     position: absolute;
     inset: 0;
-    perspective: 1000px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background: #000;
+    /* vertical page scroll stays native on touch; horizontal drags spin the sphere */
+    touch-action: pan-y;
 }
 
 .tag-sphere{
     position: relative;
     width: 100%;
     height: 100%;
-    transform-style: preserve-3d;
 }
 
 .tag-sphere-item{
@@ -998,7 +581,6 @@ section{
     white-space: nowrap;
     cursor: default;
     user-select: none;
-    touch-action: none;
     will-change: transform, opacity;
     transition: color 0.25s ease;
 }
@@ -1007,42 +589,9 @@ section{
     color: #ff2d6b;
 }
 
-@media (prefers-reduced-motion: reduce){
-    .tag-sphere-item{
-        transition: none;
-    }
-}
-
-@media screen and (max-width: 768px){
-    .education-body{
-        flex-direction: column;
-    }
-
-    .education-tags{
-        width: 100%;
-        height: 42%;
-    }
-
-    .education-right{
-        width: 100%;
-        height: 58%;
-    }
-
-    .tag-sphere-item{
-        font-size: 3vw;
-    }
-}
-
 .education-marquee{
     flex-shrink: 0;
-<<<<<<< HEAD
-=======
-    /* Fixed dark backdrop, independent of theme: the banded marquee rows
-       (white text on row-a/row-c, dark text on row-b) are a fixed
-       light/dark pairing by design, so the strip keeps its own always-dark
-       base rather than inheriting .education's theme-linked background. */
     background-color: #010409;
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -1051,8 +600,7 @@ section{
     overflow: hidden;
 }
 
-/* Middle row is color-inverted (dark text on a light strip) so the three
-   rows read as alternating bands, same as the reference screenshot. */
+/* Middle row is color-inverted so the three rows read as alternating bands. */
 .education-marquee-row.row-b{
     background-color: #ffffff;
 }
@@ -1067,24 +615,16 @@ section{
     will-change: transform;
 }
 
-/* Top/bottom rows scroll left, the inverted middle row scrolls right —
-   the same seamless -50% loop technique as .projects-marquee-track, just
-   run in both directions for the banded effect in the reference. */
 .education-marquee-row.row-a .education-marquee-track{
-    animation: projects-marquee 20s linear infinite;
+    animation: marquee-left 20s linear infinite;
 }
 
 .education-marquee-row.row-b .education-marquee-track{
-    animation: education-marquee-reverse 20s linear infinite;
-}
-
-@keyframes education-marquee-reverse{
-    from{ transform: translateX(-50%); }
-    to{ transform: translateX(0); }
+    animation: marquee-right 20s linear infinite;
 }
 
 .education-marquee-track span{
-    font-family: "poppins";
+    font-family: "Poppins", sans-serif;
     font-weight: 800;
     font-size: 4vw;
     line-height: 1.6;
@@ -1109,7 +649,7 @@ section{
     align-items: center;
     gap: 2vw;
     padding: 1.4vw 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid var(--border-soft);
 }
 
 .education-item:last-child{
@@ -1123,345 +663,54 @@ section{
 }
 
 .education-date{
-<<<<<<< HEAD
-    color: #ff2d6b;
-=======
     color: var(--accent);
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
-    font-family: "Montserrat";
+    font-family: "Montserrat", sans-serif;
     font-weight: 600;
     font-size: 1vw;
 }
 
 .education-item-left h3{
-    font-family: "Montserrat";
+    font-family: "Montserrat", sans-serif;
     font-weight: 600;
     font-size: 1.3vw;
-<<<<<<< HEAD
-    color: white;
-=======
     color: var(--page-text);
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
     margin: 0;
 }
 
 .education-location{
-    font-family: "poppins";
+    font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-size: 1vw;
-<<<<<<< HEAD
-    color: #A0A0A0;
-=======
     color: var(--muted-text);
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
 }
 
 .education-item-right{
-    font-family: "poppins";
+    font-family: "Poppins", sans-serif;
     font-size: 1.2vw;
-<<<<<<< HEAD
-    color: white;
-=======
     color: var(--page-text);
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
     text-align: right;
     flex-shrink: 0;
 }
 
 .education-item-right span{
     display: block;
-<<<<<<< HEAD
-    color: #A0A0A0;
-=======
     color: var(--muted-text);
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
     font-size: 1vw;
     margin-top: 0.3vw;
 }
 
-.skills{
-    height: 100vh;
-    width: 100vw;
-    color: white;
-    background-color: #010409;
-    /* border: 2px solid white; */
-}
-
-.skills h1{
-    font-size: 2.5vw;
-    color: #338cea;
-    font-family: "Montserrat";
-    text-transform: uppercase;
-    padding: 2vw 45vw;
-}
-
-
-.skill-section{
-    display: flex;
-    margin-left: -30vw;
-}
-
-.tab{
-    /* font-size: 10vw; */
-    margin-top: 8vw;
-    margin-left: 40vw; 
-}
-
-#tab1{
-    padding: 1vw 4vw;
-    background-color: transparent;
-    border: 2px solid #338cea;
-    color: white;
-    cursor: pointer;
-    /* margin-top: 20vw; */
-}
-
-#tab2{
-    padding: 1vw 4.4vw ;
-    background-color: transparent;
-    border: 2px solid #338cea;
-    color: white;
-    cursor: pointer;
-    margin-top: 3vw;
-}
-
-#tab3{
-    padding: 1vw 1.8vw ;
-    background-color: transparent;
-    border: 2px solid #338cea;
-    color: white;
-    cursor: pointer;
-    margin-top: 3vw;
-
-}
-
-.txt{
-    margin-top: 3vw;
-    margin-left: 15vw;
-}
-
-button{
-    border: none;
-    width: 17vw;
-}
-
-.progress-bars{
-    list-style-type: none;
-    /* padding: 1vw; */
-    color: #fff;
-    /* background: #111; */
-    /* border-radius: 1.5vw; */
-    width: 50vw;
-    box-shadow: 0 0 15px #010409;
-    /* margin: 0em auto; */
-    /* margin-left: 13vw; */
-}
-
-.progress-bars h3{
-    font-size: 1vw;
-    color: #A0A0A0;
-    font-family: "poppins";
-    font-weight: 400;
-    /* margin: 0.5em 1em; */
-    /* margin-left: -20vw; */
-}
-
-.progress-bars li{
-    width: 100%;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.bar{
-    width: 85%;
-    height: 0.4vw;
-    background-color: #010409;
-    box-shadow: 
-        inset -1px -1px #A0A0A0,
-        inset 1px 1px 8px #010409;
-    border-radius: 10px;
-    margin: 2vw 0;
-}
-
-.progress{
-    background: linear-gradient(90deg, #338cea, #70adff);
-    width: 50%;
-    height: 100%;
-    border-radius: inherit;
-    position: relative;
-    box-shadow: 0 0 3px #70adff;
-}
-
-.progress::before{
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1vw;
-    height: 100%;
-    background: #fff;
-    border-radius: inherit;
-    box-shadow: 0 0 20px #fff;
-}
-
-.percentage{
-    font-weight: 500;
-    font-family: "poppins";
-    color: #f1f1f1;
-    text-shadow: 0 0 5px #305e9c;
-}
-
-@media screen and (max-width: 800px) {
-    .progress-bars {
-        width: 80%;
-    }
-}
-
-.dsa{
-    font-family: "poppins";
-    margin-left: -3vw;
-    margin-top: -1vw;
-}
-
-.dsa-top{
-    display: flex;
-}
-
-.dsa-top p{
-    width: 30vw;
-    color: #A0A0A0;
-    margin-top: 0.5vw;
-}
-
-.p h3{
-    color: white;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.dev a img{
-    margin-left: 2vw;
-    margin-top: -3vw;
-}
-
-.dsa-bottom h3{
-    position: absolute;
-    margin-top: -2vw;
-    /* color: white; */
-    font-weight: 500;
-    font-family: "Montserrat";
-    text-transform: uppercase;
-}
-
-.dsa-bottom img{
-    /* border: 2px solid #338cea; */
-    box-shadow: 0 0 15px #305e9c;
-    height: 11vw;
-    margin-top : 1vw;
-    /* margin-left: 2vw; */
-    /* margin-top: 2vw; */
-}
-
-.project{
-    height: 165%;
-    width: 100%;
-    background-color: #010409;
-}
-
-.project h1{
-    font-size: 2.5vw;
-    font-family: "Montserrat";
-    /* background-color: #010409; */
-    color: #338cea;
-    padding: 2vw 45vw;
-    text-transform: uppercase;
-}
-
-.proj{
-    display: flex;
-    color: white;
-    padding: 2vw 4vw;
-}
-
-.proj img{
-    width: 20vw;
-    border: 2px solid white;
-    transition: transform 0.5s;
-
-}
-
-.proj-txt i{
-    font-size: 1.5vw;
-    /* margin-right: 5vw;    */
-    /* margin-top: 5vw; */
-    /* opacity: 0; */
-    color: #338cea;
-    /* text-decoration: none; */
-}
-
-.proj-txt .title{
-    display: flex;
-}
-
-.proj-txt a{
-    margin-top: 2vw;
-
-    text-decoration: none;
-}
-
-.proj:hover img{
-    transform: scale(1.1);
-    opacity: 0.3;
-}
-
-
-.proj img:hover .work-icon i{
-    opacity: 1;
-}
-
-.proj img:hover .layer{
-    height: 100%;
-    /* opacity: 0.5; */
-}
-
-
-.proj-txt{
-    font-family: "poppins";
-    margin-left: 2vw;
-}
-
-.proj-txt h3{
-    font-size: 1.8vw;
-    font-weight: 500;
-    font-family: "Montserrat";
-}
-.proj-txt p{
-    /* font-size: 2vw; */
-    color: #A0A0A0;
-    /* width: 50%; */
-}
+/* ---------- CONTACT ---------- */
 
 .contact{
     min-height: 100vh;
-    width: 100vw;
-<<<<<<< HEAD
-    background-color: #000;
-=======
+    width: 100%;
     background-color: var(--page-bg);
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
-    font-family: "poppins";
+    font-family: "Poppins", sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     padding: 6vw 7vw;
-<<<<<<< HEAD
-=======
-    transition: background-color 0.35s ease;
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
 }
 
 .contact-inner{
@@ -1475,9 +724,9 @@ button{
 }
 
 .contact-heading-line{
-    font-family: "Montserrat";
+    font-family: "Montserrat", sans-serif;
     font-weight: 800;
-    font-size: clamp(2.6rem, 8.5vw, 7vw);
+    font-size: max(2.6rem, 7vw);
     line-height: 0.95;
     text-transform: uppercase;
     letter-spacing: -1px;
@@ -1485,11 +734,7 @@ button{
 }
 
 .contact-heading-white{
-<<<<<<< HEAD
-    color: #fff;
-=======
     color: var(--page-text);
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
 }
 
 .contact-heading-pink{
@@ -1500,13 +745,9 @@ button{
 }
 
 .contact-message{
-    font-family: "poppins";
-<<<<<<< HEAD
-    color: #e6e6e6;
-=======
+    font-family: "Poppins", sans-serif;
     color: var(--page-text);
     opacity: 0.9;
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
     font-size: 1.05vw;
     max-width: 44vw;
     margin: 5vw auto 0;
@@ -1531,17 +772,6 @@ button{
     width: 3.2vw;
     height: 3.2vw;
     border-radius: 50%;
-<<<<<<< HEAD
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 1.3vw;
-    text-decoration: none;
-    flex-shrink: 0;
-    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-=======
     border: 1px solid var(--border-soft);
     display: flex;
     align-items: center;
@@ -1551,7 +781,6 @@ button{
     text-decoration: none;
     flex-shrink: 0;
     transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
 }
 
 .contact-social-btn:hover{
@@ -1566,11 +795,7 @@ button{
     align-items: center;
     gap: 0.6vw;
     margin-top: 2.5vw;
-<<<<<<< HEAD
-    color: #A0A0A0;
-=======
     color: var(--muted-text);
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
     font-size: 0.95vw;
 }
 
@@ -1584,80 +809,9 @@ button{
     color: #ff2d6b;
 }
 
-@media (prefers-reduced-motion: reduce){
-    .contact-social-btn{
-        transition: none;
-    }
-}
-
-@media screen and (max-width: 768px){
-    .contact{
-        padding: 16vw 7vw;
-    }
-
-    .contact-heading-line{
-        font-size: 13vw;
-    }
-
-    .contact-heading-pink{
-        margin-top: 2vw;
-    }
-
-    .contact-message{
-        font-size: 4vw;
-        max-width: 100%;
-        margin-top: 8vw;
-    }
-
-    .contact-socials{
-        gap: 5vw;
-        margin-top: 8vw;
-    }
-
-    .contact-social-btn{
-        width: 13vw;
-        height: 13vw;
-        font-size: 5.5vw;
-    }
-
-    .contact-email{
-        font-size: 3.6vw;
-        margin-top: 5vw;
-    }
-}
-@media screen and (max-width: 768px){
-    .logo-text{
-        font-size: 4.2vw;
-    }
-    .home-content{
-        padding-left: 6vw;
-    }
-
-    .home-dot{
-        margin-left: 2vw;
-        margin-bottom: 4vw;
-    }
-
-    .home-heading-line{
-        font-size: 15vw;
-        letter-spacing: -0.5px;
-    }
-
-    .home-heading-script{
-        font-size: 14vw;
-        margin-top: -5vw;
-        margin-left: 10vw;
-    }
-}
-
-/* ============================================================
-   CUSTOM CURSOR FOLLOWER
-   Lives outside [data-scroll-container] (a sibling of <nav>) so
-   Locomotive's transform on the scroll container never affects its
-   `position: fixed` behavior. Purely decorative: pointer-events
-   none, and hidden entirely on touch/coarse-pointer devices so it
-   never leaves a stray circle on mobile.
-   ============================================================ */
+/* ---------- CUSTOM CURSOR FOLLOWER ----------
+   Lives outside [data-scroll-container] so Locomotive's transform never affects its
+   position:fixed behaviour. Decorative only; hidden on touch devices. */
 
 .cursor-follower{
     position: fixed;
@@ -1676,27 +830,13 @@ button{
         width 0.3s ease,
         height 0.3s ease,
         background-color 0.3s ease,
-        border-color 0.3s ease,
         opacity 0.25s ease;
-}
-
-.cursor-follower[data-state="text"],
-.cursor-follower[data-state="link"]{
-    /* Same size as default — per spec, only the image state grows.
-       Restated explicitly (rather than just relying on inheriting the
-       base rule) so it stays correct even if the base rule changes later. */
-    width: 14px;
-    height: 14px;
-    background-color: #fff;
-    border: none;
-    mix-blend-mode: difference;
 }
 
 .cursor-follower[data-state="image"]{
     width: 34px;
     height: 34px;
     background-color: #ff2d6b;
-    border: none;
     mix-blend-mode: normal;
 }
 
@@ -1706,26 +846,145 @@ button{
     }
 }
 
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
 @media (prefers-reduced-motion: reduce){
+    .tag-sphere-item,
+    .contact-social-btn,
+    .project-image img{
+        transition: none;
+    }
+
     .cursor-follower{
         transition: opacity 0.25s ease;
     }
+
+    .projects-marquee-track,
+    .experience-marquee-track,
+    .education-marquee-track{
+        animation: none !important;
+    }
 }
-<<<<<<< HEAD
-=======
 
 /* ============================================================
-   MOBILE: DISABLE THE HORIZONTAL-PIN SCROLL TRACK
-   Placed last on purpose so it wins the cascade over the unconditional
-   (desktop) .sticky_parent/.sticky/.scroll_section/.projects/.experience/
-   .education rules above, which share the same selector specificity.
-   app.js pairs with this: it skips creating the ScrollTrigger pin and
-   disables Locomotive's smooth mode below this same breakpoint, so the
-   three panels just flow as normal stacked, vertically-scrolling
-   sections instead of sitting in a 300vw row waiting to be translated
-   into view.
+   COMPACT LAYOUT: phones + tablets (<= 1024px)
+   The single place for every small-screen override. app.js pairs with it: below
+   this breakpoint it does not start Locomotive Scroll or the horizontal pin, so the
+   three panels flow as plain vertically-stacked sections with native scrolling.
+   Marquees become static headings (no horizontally moving elements).
+   Sizes use clamp()/rem so they scale from 320px up to 1024px without getting huge.
    ============================================================ */
-@media screen and (max-width: 768px){
+@media screen and (max-width: 1024px){
+    html{
+        scroll-padding-top: var(--nav-h);
+    }
+
+    @media (prefers-reduced-motion: no-preference){
+        html{
+            scroll-behavior: smooth;
+        }
+    }
+
+    /* --- nav + drawer --- */
+    nav{
+        min-height: var(--nav-h);
+        height: var(--nav-h);
+        padding: 0 4vw 0 5vw;
+    }
+
+    .logo-text{
+        font-size: clamp(1rem, 4.2vw, 1.25rem);
+    }
+
+    .nav-right a{
+        display: none; /* desktop links; the drawer below replaces them */
+    }
+
+    .hamburger{
+        display: flex;
+    }
+
+    .mobile-nav{
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        height: 100dvh;
+        width: min(75vw, 320px);
+        background-color: #0d1117;
+        padding: calc(var(--nav-h) + 2rem) 2rem 2rem;
+        transform: translateX(100%);
+        visibility: hidden;
+        transition: transform 0.3s ease, visibility 0s linear 0.3s;
+        z-index: 100;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .mobile-nav.is-open{
+        transform: translateX(0);
+        visibility: visible;
+        transition-delay: 0s;
+    }
+
+    .mobile-nav-link{
+        color: white;
+        font-family: "Poppins", sans-serif;
+        font-size: 1.25rem;
+        font-weight: 500;
+        text-decoration: none;
+        letter-spacing: 0.5px;
+        opacity: 0.85;
+        padding: 0.4rem 0;
+        transition: opacity 0.2s ease, color 0.2s ease;
+    }
+
+    .mobile-nav-link:hover,
+    .mobile-nav-link:active{
+        opacity: 1;
+        color: #ff2d6b;
+    }
+
+    .mobile-nav-backdrop{
+        display: block;
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        z-index: 97;
+    }
+
+    .mobile-nav-backdrop.is-open{
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* --- hero --- */
+    .home-content{
+        height: auto;
+        min-height: 100vh;
+        min-height: 100svh;
+        padding: calc(var(--nav-h) + 1rem) 6vw 12vw;
+    }
+
+    .home-heading-line{
+        font-size: clamp(2.75rem, 14vw, 6.5rem);
+        letter-spacing: -0.5px;
+        margin-right: 0;
+    }
+
+    .home-heading-script{
+        font-size: clamp(3rem, 14vw, 7rem);
+        margin-top: -5vw;
+        margin-left: 10vw;
+    }
+
+    /* --- horizontal pin track -> plain vertical stack --- */
     .sticky_parent{
         height: auto;
     }
@@ -1743,6 +1002,7 @@ button{
         flex-direction: column;
         align-items: stretch;
         transform: none !important;
+        will-change: auto;
     }
 
     .projects,
@@ -1751,5 +1011,309 @@ button{
         width: 100%;
         height: auto;
     }
+
+    /* --- static headings instead of scrolling marquees --- */
+    .projects-marquee-track,
+    .experience-marquee-track,
+    .education-marquee-track,
+    .education-marquee-row.row-a .education-marquee-track,
+    .education-marquee-row.row-b .education-marquee-track{
+        /* the row-a/row-b selectors match the desktop animation rules' specificity */
+        animation: none;
+        width: auto;
+        will-change: auto;
+    }
+
+    .projects-marquee-track span:nth-child(n+2),
+    .experience-marquee-track span:nth-child(n+2),
+    .education-marquee-track span:nth-child(n+2),
+    .education-marquee-row:nth-child(n+2){
+        display: none;
+    }
+
+    /* --- projects --- */
+    .projects{
+        padding: calc(var(--nav-h) + 1.5rem) 0 2.5rem;
+    }
+
+    .projects-marquee{
+        padding: 0 6vw 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .projects-marquee-track span{
+        font-size: clamp(2.5rem, 12vw, 5rem);
+        padding-right: 0;
+    }
+
+    .projects-grid{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+        gap: 2rem 1.5rem;
+        padding: 0 6vw;
+        align-items: start;
+    }
+
+    .project-card{
+        width: 100%;
+    }
+
+    .project-tag{
+        font-size: 0.8rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .project-title{
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .project-image{
+        height: auto;
+        aspect-ratio: 16 / 10;
+        border-radius: 8px;
+    }
+
+    .more-project{
+        padding: 2rem 6vw 0;
+    }
+
+    .more-project a{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 48px;
+        padding: 0.9rem 1.25rem;
+        background-color: #0d1117;
+        color: #fff;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 500;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    /* --- experience --- */
+    .experience-columns{
+        flex-direction: column;
+    }
+
+    .experience-info,
+    .experience-work{
+        width: 100%;
+    }
+
+    .experience-info{
+        padding: 3rem 6vw 2.5rem;
+    }
+
+    .experience-heading{
+        font-size: clamp(1.9rem, 8vw, 3.5rem);
+        margin: 0 0 1.25rem;
+    }
+
+    .experience-blurb{
+        font-size: clamp(0.95rem, 3.8vw, 1.1rem);
+        text-align: left;
+        margin-bottom: 0;
+    }
+
+    .experience-work-label{
+        font-size: 1.5rem;
+        padding: 1rem 6vw;
+    }
+
+    .work-list{
+        padding: 0.5rem 6vw;
+    }
+
+    .work-item{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+        padding: 1rem 0;
+    }
+
+    .work-item-empty{
+        display: none; /* blank placeholder rows only make sense in the desktop layout */
+    }
+
+    .work-item-left{
+        gap: 0.25rem;
+    }
+
+    .work-date,
+    .work-location,
+    .work-item-right{
+        font-size: 0.85rem;
+    }
+
+    .work-item-left h3{
+        font-size: 1.05rem;
+    }
+
+    .work-item-right{
+        text-align: left;
+    }
+
+    .experience-marquee-track span{
+        font-size: clamp(2rem, 11vw, 4rem);
+        padding: 0.5rem 6vw;
+    }
+
+    /* --- education --- */
+    .education-body{
+        flex-direction: column;
+    }
+
+    .education-tags{
+        width: 100%;
+        height: min(100vw, 480px); /* explicit height: the sphere wrapper is absolutely positioned */
+    }
+
+    .education-right{
+        width: 100%;
+        height: auto;
+    }
+
+    .education-marquee-track span{
+        font-size: clamp(2rem, 10vw, 3.5rem);
+        line-height: 1.4;
+        padding: 0 6vw;
+    }
+
+    .education-list{
+        padding: 1rem 6vw 2.5rem;
+    }
+
+    .education-item{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+        padding: 1rem 0;
+    }
+
+    .education-item-left{
+        gap: 0.25rem;
+    }
+
+    .education-date,
+    .education-location,
+    .education-item-right,
+    .education-item-right span{
+        font-size: 0.85rem;
+    }
+
+    .education-item-left h3{
+        font-size: 1.05rem;
+    }
+
+    .education-item-right{
+        text-align: left;
+    }
+
+    /* tag sphere: wrap long labels onto two lines so 20 tags fit without overlapping the edges */
+    .tag-sphere-item{
+        font-size: clamp(0.62rem, 2.9vw, 0.85rem);
+        white-space: normal;
+        width: max-content;
+        max-width: 7.5em;
+        text-align: center;
+        line-height: 1.15;
+    }
+
+    /* --- contact --- */
+    .contact{
+        min-height: 100vh;
+        min-height: 100svh;
+        padding: 5rem 7vw;
+    }
+
+    .contact-inner{
+        max-width: 100%;
+    }
+
+    .contact-heading-line{
+        font-size: clamp(2rem, 10.5vw, 4.5rem);
+    }
+
+    .contact-heading-pink{
+        margin-top: 0.5rem;
+    }
+
+    .contact-message{
+        font-size: clamp(0.95rem, 3.8vw, 1.15rem);
+        max-width: 36rem;
+        margin-top: 2rem;
+    }
+
+    .contact-socials{
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .contact-social-btn{
+        width: clamp(44px, 12vw, 56px);
+        height: clamp(44px, 12vw, 56px);
+        font-size: clamp(1.2rem, 5.5vw, 1.5rem);
+    }
+
+    .contact-email{
+        font-size: clamp(0.85rem, 3.6vw, 1.05rem);
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+        overflow-wrap: anywhere;
+    }
+
+    /* --- lightweight entrance animations (opacity/transform only) --- */
+    .home-heading-line,
+    .home-heading-script{
+        animation: fade-up 0.7s ease both;
+    }
+
+    .home-heading-script{
+        animation-delay: 0.15s;
+    }
+
+    .js-reveal .reveal{
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .js-reveal .reveal.is-visible{
+        opacity: 1;
+        transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+        .home-heading-line,
+        .home-heading-script{
+            animation: none;
+        }
+
+        .js-reveal .reveal{
+            opacity: 1;
+            transform: none;
+            transition: none;
+        }
+    }
+
+    @keyframes fade-up{
+        from{ opacity: 0; transform: translateY(16px); }
+        to{ opacity: 1; transform: none; }
+    }
 }
->>>>>>> 67d00d90473c5bf1874e5e00997eeebbc820b441
+
+/* tap hover-lift/zoom effects are meaningless on touch */
+@media (hover: none){
+    .project-card:hover .project-image img{
+        transform: none;
+        opacity: 1;
+    }
+
+    .contact-social-btn:hover{
+        transform: none;
+    }
+}

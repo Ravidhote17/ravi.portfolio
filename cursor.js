@@ -1,21 +1,16 @@
 /* ============================================================
    CUSTOM CURSOR FOLLOWER
 
-   A single global mouse-follower, implemented with the same
-   manual requestAnimationFrame + lerp technique as tag-sphere.js
-   — self-contained, no dependency on GSAP/ScrollTrigger/Locomotive,
-   so it always runs even if those CDN scripts fail to load, and it
-   never fights the page's own scroll-driven GSAP timelines.
+   A single global mouse-follower using a manual requestAnimationFrame + lerp.
+   Self-contained: no dependency on GSAP/ScrollTrigger/Locomotive, so it always runs
+   even if those CDN scripts fail to load.
 
-   States: default / text / link / image, toggled via a data-state
-   attribute that style.css keys off of. Purely decorative —
-   pointer-events: none — so it never blocks clicks, keyboard
-   interaction, or native accessibility behavior.
+   States: default / text / link / image, toggled via a data-state attribute that
+   style.css keys off of. Purely decorative (pointer-events: none).
    ============================================================ */
 
 (function initCursorFollower(){
-  // Devices without a real (fine, hover-capable) pointer — touch/tablet —
-  // get no follower at all: no listeners created, nothing left on screen.
+  // Touch/tablet devices have no fine hover pointer: no follower, no listeners.
   const hasFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   if (!hasFinePointer) return;
 
@@ -24,8 +19,7 @@
 
   const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  // Elements whose hover should switch the follower's state. Checked in
-  // priority order (a link containing text should read as "link", not "text").
+  // Priority order: a link containing text should read as "link", not "text".
   const LINK_SELECTOR = "a, button, [role='button'], input, textarea, select, label";
   const IMAGE_SELECTOR = "img, .project-image";
   const TEXT_SELECTOR = "h1, h2, h3, h4, p, span, em, .logo-text, .work-item, .tag-sphere-item";
@@ -35,6 +29,7 @@
   let x = mouseX;
   let y = mouseY;
   let hasMoved = false;
+  let rafId = 0;
 
   function stateFor(target){
     if (!(target instanceof Element)) return "default";
@@ -44,13 +39,31 @@
     return "default";
   }
 
+  function render(){
+    // Reduced motion: skip the trailing lerp and track the pointer directly.
+    const ease = reduceMotionQuery.matches ? 1 : 0.18;
+    x += (mouseX - x) * ease;
+    y += (mouseY - y) * ease;
+    follower.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) translate(-50%, -50%)`;
+
+    // Stop the loop once the follower has caught up; the next mousemove restarts it.
+    if (Math.abs(mouseX - x) < 0.1 && Math.abs(mouseY - y) < 0.1){
+      rafId = 0;
+      return;
+    }
+    rafId = requestAnimationFrame(render);
+  }
+
+  function ensureRunning(){
+    if (!rafId) rafId = requestAnimationFrame(render);
+  }
+
   function handlePointerMove(e){
     mouseX = e.clientX;
     mouseY = e.clientY;
 
     if (!hasMoved){
-      // Snap straight to the pointer on first movement so the follower
-      // doesn't glide in from the viewport center when the mouse re-enters.
+      // Snap straight to the pointer on first movement instead of gliding in from the center.
       x = mouseX;
       y = mouseY;
       hasMoved = true;
@@ -58,6 +71,7 @@
     }
 
     follower.dataset.state = stateFor(e.target);
+    ensureRunning();
   }
 
   function handlePointerLeaveWindow(){
@@ -68,18 +82,8 @@
     if (hasMoved) follower.style.opacity = "1";
   }
 
-  function render(){
-    // Reduced motion: skip the trailing lerp and track the pointer directly.
-    const ease = reduceMotionQuery.matches ? 1 : 0.18;
-    x += (mouseX - x) * ease;
-    y += (mouseY - y) * ease;
-    follower.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) translate(-50%, -50%)`;
-    requestAnimationFrame(render);
-  }
-
   document.addEventListener("mousemove", handlePointerMove, { passive: true });
-  document.addEventListener("mouseleave", handlePointerLeaveWindow);
-  document.addEventListener("mouseenter", handlePointerEnterWindow);
-
-  requestAnimationFrame(render);
+  // mouseleave/mouseenter don't fire reliably on `document`; the root element does.
+  document.documentElement.addEventListener("mouseleave", handlePointerLeaveWindow);
+  document.documentElement.addEventListener("mouseenter", handlePointerEnterWindow);
 })();
