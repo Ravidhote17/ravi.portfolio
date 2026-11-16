@@ -16,7 +16,7 @@
     --page-text: #ffffff;
     --muted-text: #A0A0A0;
     --border-soft: rgba(255, 255, 255, 0.15);
-    --accent: #ff2d6b;
+    --accent: #174EA6;
     --nav-h: 60px;
 }
 
@@ -77,7 +77,7 @@ body.nav-open{
 
 .home-heading-script{
     font-family: "Great Vibes", cursive;
-    color: #ff2d6b;
+    color: #174EA6;
     font-weight: 900;
     font-size: 12vw;
     line-height: 1;
@@ -288,7 +288,7 @@ nav{
 }
 
 .project-tag{
-    color: #ff2d6b;
+    color: #174EA6;
     font-family: "Montserrat", sans-serif;
     font-weight: 600;
     font-size: 1vw;
@@ -402,7 +402,7 @@ nav{
 .experience-blurb em.accent{
     font-style: italic;
     font-weight: 500;
-    color: #ff2d6b;
+    color: #174EA6;
 }
 
 .experience-work{
@@ -418,7 +418,7 @@ nav{
     font-family: "Montserrat", sans-serif;
     font-weight: 700;
     font-size: 2vw;
-    color: #ff2d6b;
+    color: #174EA6;
     text-transform: lowercase;
     letter-spacing: 0.5px;
     flex-shrink: 0;
@@ -460,7 +460,7 @@ nav{
 }
 
 .work-date{
-    color: #ff2d6b;
+    color: #174EA6;
     font-family: "Montserrat", sans-serif;
     font-weight: 400;
     font-size: 1vw;
@@ -586,7 +586,7 @@ nav{
 }
 
 .tag-sphere-item.is-hovered{
-    color: #ff2d6b;
+    color: #174EA6;
 }
 
 .education-marquee{
@@ -738,7 +738,7 @@ nav{
 }
 
 .contact-heading-pink{
-    color: #ff2d6b;
+    color: #174EA6;
     font-style: italic;
     align-self: flex-end;
     margin-top: 1.5vw;
@@ -757,7 +757,7 @@ nav{
 
 .contact-message em{
     font-style: italic;
-    color: #ff2d6b;
+    color: #174EA6;
 }
 
 .contact-socials{
@@ -784,8 +784,8 @@ nav{
 }
 
 .contact-social-btn:hover{
-    background-color: #ff2d6b;
-    border-color: #ff2d6b;
+    background-color: #174EA6;
+    border-color: #174EA6;
     transform: translateY(-4px);
 }
 
@@ -806,7 +806,7 @@ nav{
 }
 
 .contact-email a:hover{
-    color: #ff2d6b;
+    color: #174EA6;
 }
 
 /* ---------- CUSTOM CURSOR FOLLOWER ----------
@@ -836,7 +836,7 @@ nav{
 .cursor-follower[data-state="image"]{
     width: 34px;
     height: 34px;
-    background-color: #ff2d6b;
+    background-color: #174EA6;
     mix-blend-mode: normal;
 }
 
@@ -945,7 +945,7 @@ nav{
     .mobile-nav-link:hover,
     .mobile-nav-link:active{
         opacity: 1;
-        color: #ff2d6b;
+        color: #174EA6;
     }
 
     .mobile-nav-backdrop{
